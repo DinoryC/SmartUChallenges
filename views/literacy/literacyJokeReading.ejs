@@ -1,0 +1,182 @@
+<%- include("../partials/header.ejs") %>
+
+<div class="container">
+    <h1>Literacy Joke Reading Page</h1>
+    <p>Enter</p>
+</div>
+
+<div class="container mt-4">
+    
+    <div class="row mt-2">
+      <h3>JokeAPI demo</h3>
+    </div>
+    <div class="row card mt-2">
+        <div class="card-body">
+            <% if (locals.jokeData) { %>
+              <% if (jokeData.error == false) { %>
+                <h4 class="card-title">Hey, tell you a joke!</h5><br>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  Category: <%= jokeData.category %>
+                </h6>
+                <p class="card-text">
+                  <%= jokeData.joke %>
+                </p>
+              <% } else { %>
+                <h4 class="card-title">Please adjust your filters</h5>
+                <h6 class="card-subtitle mb-2 text-muted">
+                  Category: <%= jokeData.message %>
+                </h6>
+                <p class="card-text">
+                  <%= jokeData.additionalInfo %>
+                </p>
+              <% } %>
+            <% } else { %>
+              <h6>Something went wrong, please try again later.</h6>
+            <% } %>
+
+            <form id="customisedJokeFilterFormData" method="post">
+
+              <div class="container mt-4">
+                <!-- Button to toggle the collapsible section -->
+                <button class="btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#checkboxSection" aria-expanded="false" aria-controls="checkboxSection">
+                  Customise Joke Ranges (Optional)
+                </button>
+                <button class="btn btn-success" type="submit" formaction="/literacyHome/getCustomJoke">
+                  Tell Me Another Joke
+                </button>
+        
+                <!-- Collapsible section -->
+                <div class="collapse mt-3" id="checkboxSection">
+                    <div class="card card-body">
+                      <div class="container mt-4">
+                        <h5>Categories: </h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="selectAllCheckbox" value="all" onchange="toggleAll(this)">
+                            <label class="form-check-label" for="selectAllCheckbox">All</label>
+                        </div>
+                        <br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox1" name="categories" value="Programming">
+                            <label class="form-check-label" for="inlineCheckbox1">Programming</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox2" name="categories" value="Miscellaneous">
+                            <label class="form-check-label" for="inlineCheckbox2">Misc</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox3" name="categories" value="Dark">
+                            <label class="form-check-label" for="inlineCheckbox3">Dark</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox4" name="categories" value="Pun">
+                          <label class="form-check-label" for="inlineCheckbox4">Pun</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox5" name="categories" value="Spooky">
+                            <label class="form-check-label" for="inlineCheckbox5">Spooky</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input autoSelectable" type="checkbox" id="inlineCheckbox6" name="categories" value="Christmas">
+                            <label class="form-check-label" for="inlineCheckbox6">Christmas</label>
+                        </div>
+                      </div>
+
+                      <div class="container mt-4">
+                        <h5>Flags to blacklist:</h5>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-1" name="blacklist" value="nsfw">
+                            <label class="form-check-label" for="inlineCheckbox1-1">nsfw</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-2" name="blacklist" value="religious">
+                            <label class="form-check-label" for="inlineCheckbox1-2">religious</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-3" name="blacklist" value="political">
+                            <label class="form-check-label" for="inlineCheckbox1-3">political</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="checkbox" id="inlineCheckbox1-4" name="blacklist" value="racist">
+                          <label class="form-check-label" for="inlineCheckbox1-4">racist</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-5" name="blacklist" value="sexist">
+                            <label class="form-check-label" for="inlineCheckbox1-5">sexist</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-6" name="blacklist" value="explicit">
+                            <label class="form-check-label" for="inlineCheckbox1-6">explicit</label>
+                        </div>
+                      </div>
+        
+                      <div class="container mt-4" name="idRange">
+                        <!-- <label for="rangeSlider">Select Joke ID Range:</label><br> -->
+                        <h5>Select Joke ID Range:</h5>
+                        <div id="rangeSlider"></div>
+                        <input class = "hidden-range" type="range" id="inputIDrangeFrom" name="idRangeFrom" min="0" max="318" value="0">
+                        <input class = "hidden-range" type="range" id="inputIDrangeTo" name="idRangeTo" min="0" max="318" value="318">
+                        <p>Selected range: <span id="rangeValue" value="min">0 - 100</span></p>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              
+
+            </form>
+        </div>
+    </div>
+  </div>
+
+    <!-- bootstrap JP -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+    <script>
+        var slider = document.getElementById('rangeSlider');
+  
+        noUiSlider.create(slider, {
+            start: [0, 318],  // Initial positions of the handles
+            connect: true,  // Connect the handles with a colored bar
+            step: 1,          // Ensures the slider only selects integer values
+            range: {
+                'min': 0,
+                'max': 318
+            },
+            format: {
+                  // Ensures values are shown as integers
+                  to: function (value) {
+                      return Math.round(value);
+                  },
+                  from: function (value) {
+                      return Number(value);
+                  }
+            }
+        });
+  
+        var rangeValue = document.getElementById('rangeValue');
+  
+        slider.noUiSlider.on('update', function(values) {
+          let idFromInput = document.getElementById('inputIDrangeFrom');
+          idFromInput.value = values[0];
+          let idToInput = document.getElementById('inputIDrangeTo');
+          idToInput.value = values[1];
+            rangeValue.innerHTML = values.map(Math.round).join(' - ');
+        });
+  
+        function toggleAll(source) {
+              // Get all checkboxes except the "All" checkbox
+              var checkboxes = document.querySelectorAll('.autoSelectable:not(#selectAllCheckbox)');
+              
+              // If "All" is checked, check all checkboxes
+              if (source.checked) {
+                  checkboxes.forEach(function(checkbox) {
+                      checkbox.checked = true;
+                  });
+              }
+          }
+        
+  
+    </script>
+
+
+<%- include("../partials/footer.ejs") %>
