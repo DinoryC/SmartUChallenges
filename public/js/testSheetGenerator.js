@@ -1,5 +1,3 @@
-console.log("test.js");
-
 var element1RangeFrom;
 var element1RangeTo;
 var element2RangeFrom;
@@ -25,10 +23,9 @@ startTest();
 
 function pageLoadingPreparation() {
     getParameters();
-    consoleLogParamenter();
+    // consoleLogParamenter();
     prepareAllQuestions();
     PrepareAllAnswers();
-    console.log(allAnswers);
     currentQuestion = -1;
     $('#passedQuestions').html(passedQuestionsHtml);
 
@@ -49,9 +46,7 @@ function startTest() {
 
 function addKeyboardEventListener() {
     document.addEventListener('keydown', function(event) {
-        console.log(event.key);
         if (event.key >= "0" && event.key <= "9" || event.key === "Backspace" || event.key === "-") {
-            console.log("event handler keydown " + event.key);
             inputHandler(event.key);
         } else {
             event.preventDefault(); // Prevent any other keys
@@ -65,12 +60,6 @@ function inputHandler(input) {
         $('#userInputValue').val(currentUserInputAnswer);
     } else {
         currentUserInputAnswer += input;
-        // $('#userInputValue').val(currentUserInputAnswer);
-
-        console.log("currentUserInputAnswer.length = " + currentUserInputAnswer.length);
-        console.log("allAnswers[currentQuestion].toString() = " + allAnswers[currentQuestion].toString());
-        console.log("allAnswers[currentQuestion].toString().length = " + allAnswers[currentQuestion].toString().length);
-
         if (currentUserInputAnswer.length === allAnswers[currentQuestion].toString().length) {
             if(!checkAnswer()) {
                 WrongAnswer();
@@ -121,9 +110,6 @@ function prepareAllQuestions() {
         default:
             throw new Error('Invalid operator for test sheet generator');
     }
-
-    console.log("Print all questions: ");
-    console.log(allQuestions);
 }
 
 function PrepareAllAnswers() {
@@ -172,7 +158,6 @@ function generatePossibleCombinationCountForPositiveAnsForSubtractionQs(){
         possibleCount += (element1RangeTo - subtrahend + 1);
     }
 
-    console.log("Subtraction possible count = " + possibleCount);
     return possibleCount;
 }
 
@@ -184,7 +169,6 @@ function prepareAsMultiplicationChallenges() {
         generateRandomTestSheetQuestions(element1RangeFrom, element1RangeTo, element2RangeFrom, element2RangeTo);
     }
 }
-
 
 // Divident / Divisor = Quotient...Remainder
 function prepareAsDivisionChallenges() {
@@ -222,7 +206,6 @@ function generateATimesTableWithAHeroNum(firstNumfrom, SecondNumFrom, SecondNumT
     for (var i = 0; i < randomNumArray.length; i++) {
         allQuestions.push([firstNumfrom, randomNumArray[i]]);
     }
-    console.log(allQuestions);
 }
 
 function generateRandomTestSheetQuestions(firstNumfrom, firstNumTo, SecondNumFrom, SecondNumTo) {
@@ -310,20 +293,18 @@ function checkAnswer() {
 }
 
 function WrongAnswer () {
-    console.log("Wrong Answer");
     wrongAnswerFx();
     currentUserInputAnswer = "";
     $('#userInputValue').val(currentUserInputAnswer);
 }
 
 function CorrectAnswer() {
-    console.log("Correct Answer");
-
     correctAnswerEffect();
+    var displayOperator = (questionOperator === "/") ? "÷" : questionOperator;
 
     passedQuestionsHtml += 
     allQuestions[currentQuestion][0] + " " 
-    + questionOperator + " " 
+    + displayOperator + " " 
     + allQuestions[currentQuestion][1] + " = " 
     + allAnswers[currentQuestion] + "<br>";
     $('#passedQuestions').html(passedQuestionsHtml);
@@ -333,7 +314,6 @@ function CorrectAnswer() {
 }
 
 function ChallengeSuccess() {
-    console.log("Challenge Success");
     challengeSuccessFx();
     $('#currentQuestion').text("Challenge Success! Congratulations!");
     setTimeout(stopInputValueUpdater, 200);
@@ -348,7 +328,6 @@ function ChallengeSuccess() {
 
 function inputValueUpdater(updateInterval) {
     intervalInputUpdater = setInterval(function() {
-        console.log("Input updater log => input = " + currentUserInputAnswer);
       $('#userInputValue').val(currentUserInputAnswer);
     }, updateInterval);
 }
@@ -399,5 +378,5 @@ function triggerShake() {
     
     setTimeout(() => {
         $('#testSheetCard').removeClass('shake');
-    }, 700);
+    }, 600);
   }
