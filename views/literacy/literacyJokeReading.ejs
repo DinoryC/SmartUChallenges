@@ -1,20 +1,17 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container">
-    <h1>Literacy Joke Reading Page</h1>
-    <p>Enter</p>
+<div class="text-center container mt-4">
+    <h1>Joke Reading Challenge
+    <h2>Let's see if you can understand a joke.</h2>
 </div>
 
 <div class="container mt-4">
-    
-    <div class="row mt-2">
-      <h3>JokeAPI demo</h3>
-    </div>
     <div class="row card mt-2">
-        <div class="card-body">
+        <div class="text-center card-body">
             <% if (locals.jokeData) { %>
               <% if (jokeData.error == false) { %>
-                <h4 class="card-title">Hey, tell you a joke!</h5><br>
+                <svg height="150px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M146.908 224.236C166.925 338.455 270.014 242.583 254.072 234.939C223.437 220.252 188.739 224.824 157.327 213.527" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M138.539 121.701C198.468 164.322 211.992 127.38 118 167.614" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M281.249 120C260.39 132.103 242.818 140.507 228.533 145.211C250.501 156.133 268.072 163.034 281.249 165.913" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                <h2 class="card-title">Hey, tell you a joke!</h2><br>
                 <h6 class="card-subtitle mb-2 text-muted">
                   Category: <%= jokeData.category %>
                 </h6>
@@ -120,8 +117,6 @@
                     </div>
                 </div>
               </div>
-              
-
             </form>
         </div>
     </div>

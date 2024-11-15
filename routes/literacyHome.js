@@ -13,10 +13,6 @@ router.get('/', (req, res) => {
     res.render('literacy/literacyHome.ejs');
 });
 
-// router.get("/JokeReading", (req, res) => {
-//     res.render('literacy/literacyJokeReading.ejs');
-// });
-
 router.get("/JokeReading", async (req, res) => {
     try {
       const response = await axios.get(API_URL + "/Any?type=single");
@@ -41,9 +37,6 @@ router.post("/getCustomJoke", async (req, res) => {
     }
   }
 });
-
-
-
 
 router.get("/AddNewWord", (req, res) => {
     res.render('literacy/literacyAddNewWord.ejs');
