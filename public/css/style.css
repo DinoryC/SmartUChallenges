@@ -60,3 +60,10 @@ input[type="number"] {
 .shake {
   animation: shake 0.5s ease-in-out;
 }
+
+.hidden-range {
+  display: none; 
+  /* visibility: hidden; */
+  /* This will completely hide the element */
+  /* Alternatively, you can use visibility: hidden; */
+}

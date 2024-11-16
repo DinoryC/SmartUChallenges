@@ -1,4 +1,5 @@
 <%- include("../partials/header.ejs") %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.css">
 
 <div class="text-center container mt-4">
     <h1>Joke Reading Challenge
@@ -122,56 +123,53 @@
     </div>
   </div>
 
-    <!-- bootstrap JP -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
-    <script>
-        var slider = document.getElementById('rangeSlider');
-  
-        noUiSlider.create(slider, {
-            start: [0, 318],  // Initial positions of the handles
-            connect: true,  // Connect the handles with a colored bar
-            step: 1,          // Ensures the slider only selects integer values
-            range: {
-                'min': 0,
-                'max': 318
-            },
-            format: {
-                  // Ensures values are shown as integers
-                  to: function (value) {
-                      return Math.round(value);
-                  },
-                  from: function (value) {
-                      return Number(value);
-                  }
-            }
-        });
-  
-        var rangeValue = document.getElementById('rangeValue');
-  
-        slider.noUiSlider.on('update', function(values) {
-          let idFromInput = document.getElementById('inputIDrangeFrom');
-          idFromInput.value = values[0];
-          let idToInput = document.getElementById('inputIDrangeTo');
-          idToInput.value = values[1];
-            rangeValue.innerHTML = values.map(Math.round).join(' - ');
-        });
-  
-        function toggleAll(source) {
-              // Get all checkboxes except the "All" checkbox
-              var checkboxes = document.querySelectorAll('.autoSelectable:not(#selectAllCheckbox)');
-              
-              // If "All" is checked, check all checkboxes
-              if (source.checked) {
-                  checkboxes.forEach(function(checkbox) {
-                      checkbox.checked = true;
-                  });
-              }
-          }
-        
-  
-    </script>
+<!-- bootstrap JP -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
+<script>
+  var slider = document.getElementById('rangeSlider');
+  console.log("Here 123");
 
+  noUiSlider.create(slider, {
+    start: [0, 318],  // Initial positions of the handles
+    connect: true,    // Connect the handles with a colored bar
+    step: 1,          // Ensures the slider only selects integer values
+    range: {
+        'min': 0,
+        'max': 318
+    },
+    format: {
+          // Ensures values are shown as integers
+          to: function (value) {
+              return Math.round(value);
+          },
+          from: function (value) {
+              return Number(value);
+          }
+    }
+  });
+
+  var rangeValue = document.getElementById('rangeValue');
+
+  slider.noUiSlider.on('update', function(values) {
+    let idFromInput = document.getElementById('inputIDrangeFrom');
+    idFromInput.value = values[0];
+    let idToInput = document.getElementById('inputIDrangeTo');
+    idToInput.value = values[1];
+    rangeValue.innerHTML = values.map(Math.round).join(' - ');
+  });
+
+  function toggleAll(source) {
+    // Get all checkboxes but "All" checkbox.
+    var checkboxes = document.querySelectorAll('.autoSelectable:not(#selectAllCheckbox)');
+    
+    // If "All" is checked, check all checkboxes
+    if (source.checked) {
+      checkboxes.forEach(function(checkbox) {
+        checkbox.checked = true;
+      });
+    }
+  }
+</script>
 
 <%- include("../partials/footer.ejs") %>
