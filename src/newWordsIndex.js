@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import MyComponent from './MyComponent';
+import NewWordsApp from './NewWordsApp.jsx'
 
 const root = ReactDOM.createRoot(document.getElementById('react-root'));
-root.render(<MyComponent />);
+root.render(
+    <NewWordsApp />
+);
