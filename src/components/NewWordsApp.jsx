@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import MyComponent from './MyComponent';
-import MyList from './MyList';
 import VocabularyCard from "./VocabularyCard";
 import CreateArea from "./CreateArea";
 
@@ -33,20 +31,23 @@ function NewWordsApp() {
 
   
     return (
-      <div>
-        <CreateArea addItemClicked={AddNewWordCard} />
-        {vocabArray.map((wordCard, index) => (
-          <VocabularyCard
-            key={index}
-            id={index}
-            word={wordCard.word}
-            sentence={wordCard.sentence}
-            createdDate={wordCard.createdDate}
-            editItem={updateVocabCard}
-            deleteItem={deleteVocabCard}
-          />
-        ))}
-      </div>
+
+        <div class="container-fluid d-flex justify-content-center align-items-center mt-4 mb-0">
+            <div>
+                <CreateArea addItemClicked={AddNewWordCard} />
+                {vocabArray.map((wordCard, index) => (
+                <VocabularyCard
+                    key={index}
+                    id={index}
+                    word={wordCard.word}
+                    sentence={wordCard.sentence}
+                    createdDate={wordCard.createdDate}
+                    editItem={updateVocabCard}
+                    deleteItem={deleteVocabCard}
+                />
+                ))}
+            </div>
+        </div>
     );
   }
 

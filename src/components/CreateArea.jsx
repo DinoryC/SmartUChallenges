@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
 
 function CreateArea(props) {
   const [inputContent, setInputContent] = useState({ word: "", sentence: "", createdDate: ""});
@@ -50,14 +51,14 @@ function CreateArea(props) {
           onChange={handleChange}
           value={inputContent.sentence}
         />)}
-        <button
+        <Fab
           onClick={() => {
             props.addItemClicked(inputContent);
             addButtonClicked();
           }}
         >
           <AddIcon />
-        </button>
+        </Fab>
       </form>
     </div>
   );
