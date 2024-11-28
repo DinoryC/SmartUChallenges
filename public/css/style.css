@@ -8,6 +8,7 @@
 
 body {
     background-color:#CDFADB;
+    background-image: url("https://transparenttextures.com/patterns/food.png");
 }
 
 .pdf-container {
@@ -66,4 +67,82 @@ input[type="number"] {
   /* visibility: hidden; */
   /* This will completely hide the element */
   /* Alternatively, you can use visibility: hidden; */
+}
+
+.vocabCard {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: 240px;
+  margin: 16px;
+  float: left;
+}
+
+.vocabCard h1 {
+  font-size: 1.4em;
+  margin-bottom: 8px;
+}
+
+.vocabCard h3 {
+  font-size: 1.1em;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.vocabCard p {
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: right;
+}
+
+.vocabCard button {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  color: #f39c12;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+}
+
+form.create-newVocabCard {
+  position: relative;
+  width: 480px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+form.create-newVocabCard input,
+form.create-newVocabCard textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+form.create-newVocabCard button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
 }
