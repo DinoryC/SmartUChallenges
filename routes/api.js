@@ -18,7 +18,7 @@ const router = express.Router();
 // });
 
 // GET all words by user's id
-router.get('/literacyHome/vocabGarden/1', async (req, res) => {
+router.get('/user/test', async (req, res) => {
   try {
     // const { userId } = req.params;
     const userId = 1;
@@ -26,7 +26,6 @@ router.get('/literacyHome/vocabGarden/1', async (req, res) => {
       'SELECT word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
       [userId]
     );
-    console.log("api.js line 29: " + results.rows);
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);
@@ -34,8 +33,19 @@ router.get('/literacyHome/vocabGarden/1', async (req, res) => {
   }
 });
 
+router.get("/JokeReading", async (req, res) => {
+  try {
+    const response = await axios.get(API_URL + "/Any?type=single");
+    console.log("Enter 1");
+    console.log(response.data);
+    res.render('literacy/literacyJokeReading.ejs', { jokeData: response.data });
+  } catch (error) {
+    res.render('literacy/literacyJokeReading.ejs', { jokeData: error.response, jokeCategory: "error" });
+  }
+});
+
 // POST a new word
-router.post('/literacyHome/vocabGarden/words', async (req, res) => {
+router.post('/literacyHome/vocabGardenApp/words', async (req, res) => {
   try {
     const { word, definition } = req.body;
     const result = await pool.query(
@@ -50,7 +60,7 @@ router.post('/literacyHome/vocabGarden/words', async (req, res) => {
 });
 
 // DELETE a word
-router.delete('/literacyHome/vocabGarden/:id', async (req, res) => {
+router.delete('/literacyHome/vocabGardenApp/:id', async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query('DELETE FROM words WHERE id = $1', [id]);

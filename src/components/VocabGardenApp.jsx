@@ -11,7 +11,10 @@ function VocabGardenApp() {
         <VocabGardenTopper />
         <div>
           <Switch>
-            <Route exact path="/literacyHome/vocabGardenApp">
+            <Route exact path="/literacyHome/vocabGardenApp/user/:userId">
+              <UserVocabs />
+            </Route>
+            <Route exact path="/literacyHome/vocabGardenApp/">
               <UserVocabs />
             </Route>
             <Route exact path="/logOn">

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, route, Switch } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import VocabCard from "./VocabCard";
 import CreateArea from "./CreateArea";
@@ -13,7 +12,7 @@ function UserVocabs() {
   // const { userId } = useParams();
   const userId = 1;
   // console.log("UserVocabs.jsx   useParams, userId = " + userId);
-  const { data: vocabArray, isPending, error } = useFetch(`/literacyHome/vocabGarden/${userId}`);
+  const { data: vocabArray, isPending, error } = useFetch(`/literacyHome/vocabGardenApp/user/test`);
   function AddNewVocabCard(item) {
     setVocabArray((prevArray) => {
       return [...prevArray, item];
@@ -37,9 +36,53 @@ function UserVocabs() {
     });
   }
   
+  return (
+    <div>
+      <p>Test is working</p>
+      {error && <div>{error}</div>}
+      {isPending && <div>Loading...</div>}
+      {vocabArray && (
+        <div className="container-fluid">
+          <div className="custom-container">
+            <CreateArea addItemClicked={AddNewVocabCard} />
+            <div className="row justify-content-center">
+              {vocabArray.map((wordCard, index) => (
+                <div
+                  key={index}
+                  className="
+                    col-12
+                    col-sm-6
+                    col-md-6
+                    col-lg-4
+                    col-xl-3
+                    d-flex
+                    justify-content-center
+                    mb-4
+                  "
+                >
+                  <VocabCard
+                    id={index}
+                    word={wordCard.word}
+                    sentence={wordCard.sentence}
+                    createdDate={wordCard.created_at.substring(0, 10)}
+                    editItem={updateVocabCard}
+                    deleteItem={deleteVocabCard}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default UserVocabs;
+
   // Fetch all words on component mount
   // useEffect(() => {
-  //   fetch('/api/words')
+  //   fetch(`/literacyHome/vocabGardenApp/user/${userId}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setError(null);
@@ -74,36 +117,3 @@ function UserVocabs() {
   //     .then(() => setWords((prevWords) => prevWords.filter((word) => word.id !== id)))
   //     .catch((err) => console.error('Error deleting word:', err));
   // };
-
-console.log("error : " + error);
-console.log("isPending : " + isPending);
-console.log("vocabArray : " + vocabArray);
-
-    return (
-        <div>
-        <p> test is working</p>
-            { error && <div>{ error }</div> }
-            { isPending &&  <div>Loading...</div> }
-            { vocabArray && 
-            <div class="container-fluid d-flex justify-content-center align-items-center mt-4 mb-0">
-                <div>
-                    <CreateArea addItemClicked={AddNewVocabCard} />
-                    {vocabArray.map((wordCard, index) => (
-                    <VocabCard
-                    key={index}
-                    id={index}
-                    word={wordCard.word}
-                    sentence={wordCard.sentence}
-                    createdDate={wordCard.createdDate}
-                    editItem={updateVocabCard}
-                    deleteItem={deleteVocabCard}
-                    />
-                    ))}
-                </div>
-            </div>
-            }
-        </div>
-    );
-}
-
-export default UserVocabs;

@@ -1,25 +1,25 @@
 .content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
 body {
-    background-color:#CDFADB;
-    background-image: url("https://transparenttextures.com/patterns/food.png");
+  background-color:#CDFADB;
+  background-image: url("https://transparenttextures.com/patterns/food.png");
 }
 
 .pdf-container {
-    width: 100%;
-    height: 100%;
-    border: none;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .no-underline {
-    text-decoration: none;
-  }
+  text-decoration: none;
+}
 
 .correctAnswers {
   text-align: left;
@@ -63,10 +63,7 @@ input[type="number"] {
 }
 
 .hidden-range {
-  display: none; 
-  /* visibility: hidden; */
-  /* This will completely hide the element */
-  /* Alternatively, you can use visibility: hidden; */
+  display: none;
 }
 
 .vocabCard {
@@ -74,18 +71,16 @@ input[type="number"] {
   border-radius: 7px;
   box-shadow: 0 2px 5px #ccc;
   padding: 10px;
-  width: 240px;
-  margin: 16px;
-  float: left;
+  width: 260px;
 }
 
 .vocabCard h1 {
-  font-size: 1.4em;
+  font-size: 1.3em;
   margin-bottom: 8px;
 }
 
 .vocabCard h3 {
-  font-size: 1.1em;
+  font-size: 0.9em;
   margin-bottom: 8px;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -145,4 +140,15 @@ form.create-newVocabCard button {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   outline: none;
+}
+
+.custom-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 1400px) {
+  .custom-container {
+    width: 85%;
+  }
 }

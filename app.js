@@ -4,8 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 import homepageRoutes from './routes/homepage.js';
-import literacyHomeRoutes from './routes/literacyHome.js';
 import numeracyHomeRoutes from './routes/numeracyHome.js';
+import literacyHomeRoutes from './routes/literacyHome.js';
 import apiRoutes from "./routes/api.js";
 
 const PORT = process.env.PORT || 10000;
@@ -24,9 +24,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.json());
 
 app.use('/', homepageRoutes);
-app.use('/literacyHome', literacyHomeRoutes);
 app.use('/numeracyHome', numeracyHomeRoutes);
-app.use('/literacyHome/vocabGarden', apiRoutes);
+app.use('/literacyHome', literacyHomeRoutes);
+app.use('/literacyHome/vocabGardenApp', apiRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -30,16 +30,16 @@ function CreateArea(props) {
     setExpanded(false);
   }
 
-  function expand() {
-    setExpanded(true);
+  function toggleExpand() {
+    setExpanded(prevExpanded => !prevExpanded);
   }
 
   return (
-    <div>
+    <div className="mb-5">
       <form className="create-newVocabCard">
         <input
             name="word"
-            onClick={expand}
+            onClick={toggleExpand}
             placeholder="Add a new word"
             onChange={handleChange}
             value={inputContent.word}

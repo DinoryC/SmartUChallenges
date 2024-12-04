@@ -1,7 +1,6 @@
 import express from 'express';
 import axios from "axios";
 import bodyParser from "body-parser";
-// import db from "./db";
 
 const router = express.Router();
 const app = express();
@@ -16,8 +15,6 @@ router.get('/', (req, res) => {
 router.get("/JokeReading", async (req, res) => {
     try {
       const response = await axios.get(API_URL + "/Any?type=single");
-      console.log("Enter 1");
-      console.log(response.data);
       res.render('literacy/literacyJokeReading.ejs', { jokeData: response.data });
     } catch (error) {
       res.render('literacy/literacyJokeReading.ejs', { jokeData: error.response, jokeCategory: "error" });
@@ -30,7 +27,6 @@ router.post("/getCustomJoke", async (req, res) => {
   } else {
     try {
       const response = await axios.get(API_URL + customURLGenerator(req.body));
-      console.log(response.data);
       res.render('literacy/literacyJokeReading.ejs', { jokeData: response.data });
     } catch (error) {
       res.render('literacy/literacyJokeReading.ejs', { jokeData: error.response, jokeCategory: "error" });
