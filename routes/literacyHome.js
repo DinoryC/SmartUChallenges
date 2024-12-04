@@ -1,11 +1,10 @@
 import express from 'express';
 import axios from "axios";
 import bodyParser from "body-parser";
-import db from "./db";
+// import db from "./db";
 
 const router = express.Router();
 const app = express();
-const port = 3000;
 const API_URL = "https://v2.jokeapi.dev/joke";
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,8 +38,8 @@ router.post("/getCustomJoke", async (req, res) => {
   }
 });
 
-router.get("/AddNewWord", (req, res) => {
-    res.render('literacy/literacyAddNewWord.ejs');
+router.get("/vocabGardenApp", (req, res) => {
+    res.render('literacy/literacyVocabGardenApp.ejs');
 });
 
 function hasAnyCustomisedFilters(reqBodyContent) {
@@ -56,41 +55,41 @@ function hasAnyCustomisedFilters(reqBodyContent) {
     }
   }
   
-  function customURLGenerator(chosenFilters) {
-    let catgoriesPart = "";
-    let blacklistFlagsPart = "";
-    let idRange = "";
-  
-    if (Object.hasOwn(chosenFilters, 'categories')){
-      let categories = combineStrings(chosenFilters.categories);
-      catgoriesPart = categories + "?";
-    } else {
-      catgoriesPart = "Any?";
-    };
-  
-    if (Object.hasOwn(chosenFilters, 'blacklist')){
-      let blackList = combineStrings(chosenFilters.blacklist);
-      blacklistFlagsPart = "blacklistFlags=" + blackList + "&";
-    }
-  
-    if (chosenFilters.idRangeFrom != 0 || chosenFilters.idRangeTo != 1367) {
-      idRange = "&idRange=" + chosenFilters.idRangeFrom + "-" +  chosenFilters.idRangeTo;
-    }
-  
-    let endPoint = "/" + catgoriesPart + blacklistFlagsPart + "type=single" + idRange;
-    console.log(API_URL + endPoint);
-  
-    return endPoint;
+function customURLGenerator(chosenFilters) {
+  let catgoriesPart = "";
+  let blacklistFlagsPart = "";
+  let idRange = "";
+
+  if (Object.hasOwn(chosenFilters, 'categories')){
+    let categories = combineStrings(chosenFilters.categories);
+    catgoriesPart = categories + "?";
+  } else {
+    catgoriesPart = "Any?";
+  };
+
+  if (Object.hasOwn(chosenFilters, 'blacklist')){
+    let blackList = combineStrings(chosenFilters.blacklist);
+    blacklistFlagsPart = "blacklistFlags=" + blackList + "&";
   }
-  
-  function combineStrings(input) {
-    if (Array.isArray(input)) {
-      return input.join(',');
-    } else if (typeof input === 'string') {
-      return input;
-    } else {
-      throw new Error("Input must be a string or an array of strings");
-    }
+
+  if (chosenFilters.idRangeFrom != 0 || chosenFilters.idRangeTo != 1367) {
+    idRange = "&idRange=" + chosenFilters.idRangeFrom + "-" +  chosenFilters.idRangeTo;
   }
+
+  let endPoint = "/" + catgoriesPart + blacklistFlagsPart + "type=single" + idRange;
+  console.log(API_URL + endPoint);
+
+  return endPoint;
+}
+
+function combineStrings(input) {
+  if (Array.isArray(input)) {
+    return input.join(',');
+  } else if (typeof input === 'string') {
+    return input;
+  } else {
+    throw new Error("Input must be a string or an array of strings");
+  }
+}
 
 export default router;

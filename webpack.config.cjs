@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/newWordsIndex.js', // Entry point of your React code
+  entry: './src/vocabGardenAppIndex.js', // Entry point of React code
   output: {
     path: path.resolve(__dirname, 'public/react_javascripts'),
     filename: 'bundle.js', // Output bundle

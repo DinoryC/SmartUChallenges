@@ -2,7 +2,7 @@ import React from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from '@mui/icons-material/Edit';
 
-function VocabularyCard(props) {
+function VocabCard(props) {
     function editCard() {
         props.onDelete(props.id);
     }
@@ -32,4 +32,4 @@ function VocabularyCard(props) {
     );
 }
 
-export default VocabularyCard;
+export default VocabCard;

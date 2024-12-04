@@ -6,7 +6,9 @@ import { fileURLToPath } from 'url';
 import homepageRoutes from './routes/homepage.js';
 import literacyHomeRoutes from './routes/literacyHome.js';
 import numeracyHomeRoutes from './routes/numeracyHome.js';
+import apiRoutes from "./routes/api.js";
 
+const PORT = process.env.PORT || 10000;
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -19,13 +21,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 app.use('/', homepageRoutes);
 app.use('/literacyHome', literacyHomeRoutes);
 app.use('/numeracyHome', numeracyHomeRoutes);
+app.use('/literacyHome/vocabGarden', apiRoutes);
 
-const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -6,8 +6,8 @@ function CreateArea(props) {
   const [inputContent, setInputContent] = useState({ word: "", sentence: "", createdDate: ""});
   const [isExpanded, setExpanded] = useState(false);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  function handleChange(e) {
+    const { name, value } = e.target;
     updateInputDate()
     setInputContent((prevValue) => {
       return { ...prevValue, [name]: value };
@@ -24,8 +24,8 @@ function CreateArea(props) {
     });
   }
 
-  function addButtonClicked() {
-    event.preventDefault();
+  function addButtonClicked(e) {
+    e.preventDefault();
     setInputContent(() => ({ word: "", sentence: "", createdDate: ""}));
     setExpanded(false);
   }
