@@ -1,50 +1,75 @@
-import React from "react";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import React, { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 function VocabCard(props) {
-    function editCard() {
-        // NEEd LOGIC HERE 
-        // include the content of the form class="edit" and send a patch request
-        props.editItem();
+    const [editedInput, setEditedInput] = useState({
+        vocabId: props.vocabId, 
+        editedWord: props.word, 
+        editedSentence: props.sentence
+    });
+    const [isExpandForEdit, setIsExpandForEdit] = useState(false);
+  
+    function handleChange(e) {
+      const { name, value } = e.target;
+      setEditedInput((prevValue) => {
+        return { ...prevValue, [name]: value };
+      });
     }
 
-    function deleteCard() {
-        props.onDelete(props.vocabId);
-    }
-
-    function handleEditButtonClicked(vocabId) {
-        document.getElementById("vocabCard" + vocabId).setAttribute("hidden", true)
-        document.getElementById("editButton" + vocabId).setAttribute("hidden", true)
-        document.getElementById("doneButton" + vocabId).removeAttribute("hidden")
-        document.getElementById("editedSentenceInput" + vocabId).removeAttribute("hidden")
+    function handleEditSubmit() {
+        props.editItem(editedInput);
+        setIsExpandForEdit(false);
     }
 
     return (
         <div className="vocabCard">
-            <h1 id={`vocabCard${props.vocabId}`}>{props.word}</h1>
-            <form class="edit" action="/edit" method="post">
-                <input type="hidden" name="editedWord" value={props.word} />
-                <input id={`editedSentenceInput${props.vocabId}`} type="text" name="editedSentence" value={props.sentence} autocomplete="off" autofocus="true" hidden="true" />
-                <button id={`doneButton${props.vocabId}`} class="edit" type="submit" hidden><DoneIcon /></button>
-            </form>
-            <h3>{props.sentence}</h3>
+            { !isExpandForEdit && <h1>{props.word}</h1> }
+            { isExpandForEdit && (
+                <input 
+                    type="text"
+                    name="editedWord"
+                    value={editedInput.editedWord} 
+                    onChange={handleChange}
+                    autoComplete="off" 
+                    autofocus
+                />
+            )}
+            { isExpandForEdit && (
+                <input 
+                    rows="3"
+                    onChange={handleChange} 
+                    type="text" 
+                    name="editedSentence"
+                    value={editedInput.editedSentence} 
+                    autoComplete="off" 
+                />
+            )}
+            { isExpandForEdit && (
+                <button 
+                    onClick={() => {
+                        handleEditSubmit();
+                    }}>
+                    <DoneIcon />
+                </button> 
+            )}
+            { !isExpandForEdit && <h3>{props.sentence}</h3> }
             <p>Created: {props.createdDate}</p>
             <button 
                 onClick={() => {
-                props.deleteItem(props.vocabId);
+                    props.deleteItem(props.vocabId);
                 }}>
                 <DeleteForeverIcon />
             </button>
-            <button id={`editButton${props.vocabId}`}
-                onClick={() => {
-                handleEditButtonClicked(props.vocabId);
-                console.log("props.vocabId = " + props.vocabId);
-                props.editItem(props.vocabId);
-                }}>
-                <EditIcon />
-            </button>
+            { !isExpandForEdit && (
+                <button 
+                    onClick={() => {
+                        setIsExpandForEdit(true);
+                    }}>
+                    <EditIcon />
+                </button> 
+            )}
         </div>
     );
 }

@@ -45,7 +45,7 @@ function UserVocabs() {
     if (editData) {
       setAppState((prevState) => {
         const updatedArray = prevState.vocabArray.map((card) =>
-          card.id === editData.id ? editData : card
+          card.vocab_id === editData.vocab_id ? editData : card
         );
         return { ...prevState, vocabArray: updatedArray };
       });
@@ -64,23 +64,32 @@ function UserVocabs() {
 
   async function updateVocabCard(editedCardContent) {
     try {
-      // NEED LOGIC HERE
+      // Destructure editedCardContent
+      const { vocabId, editedWord, editedSentence } = editedCardContent;
+  
+      // Trigger the PATCH mutation
+      await editVocabCardMutate({ vocabId, editedWord, editedSentence, userId: 1 });
+      // `editData` effect will handle updating state once mutation succeeds
     } catch (err) {
       console.error("Failed to edit card:", err);
     }
   }
-
+  
   async function deleteVocabCard(toBeDeletedCardID) {
     try {
-      // NEED LOGIC HERE
+      await deleteVocabCardMutate({ vocabId: toBeDeletedCardID, userId: 1 });
+      // Once the delete is successful, we should also remove it from state:
+      setAppState((prevState) => {
+        const updatedArray = prevState.vocabArray.filter((card) => card.vocab_id !== toBeDeletedCardID);
+        return { ...prevState, vocabArray: updatedArray };
+      });
     } catch (err) {
       console.error("Failed to delete card:", err);
     }
   }
-
+  
   return (
     <div>
-      <p>Test is working</p>
       {appState.error && <div>{appState.error}</div>}
       {appState.isLoading && <div>Loading...</div>}
       {appState.vocabArray && (
@@ -122,25 +131,3 @@ function UserVocabs() {
 }
 
 export default UserVocabs;
-
-  // // Function to add a new word
-  // const addWord = (newWord) => {
-  //   setIsPending(true);
-
-  //   fetch('/api/words', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(newWord),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((addedWord) => setWords((prevWords) => [addedWord, ...prevWords]))
-  //     .catch((err) => console.error('Error adding word:', err));
-  //     setIsPending(false);
-  // };
-
-  // // Function to delete a word
-  // const deleteWord = (id) => {
-  //   fetch(`/api/words/${id}`, { method: 'DELETE' })
-  //     .then(() => setWords((prevWords) => prevWords.filter((word) => word.id !== id)))
-  //     .catch((err) => console.error('Error deleting word:', err));
-  // };
