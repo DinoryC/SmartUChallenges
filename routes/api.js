@@ -19,11 +19,12 @@ const router = express.Router();
 
 // GET all words by user's id
 router.get('/user/test', async (req, res) => {
+  console.log("api.js 'get' router hit");
   try {
     // const { userId } = req.params;
     const userId = 1;
     const result = await pool.query(
-      'SELECT word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
+      'SELECT vocab_id, word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
       [userId]
     );
     res.json(result.rows);
@@ -33,24 +34,15 @@ router.get('/user/test', async (req, res) => {
   }
 });
 
-router.get("/JokeReading", async (req, res) => {
-  try {
-    const response = await axios.get(API_URL + "/Any?type=single");
-    console.log("Enter 1");
-    console.log(response.data);
-    res.render('literacy/literacyJokeReading.ejs', { jokeData: response.data });
-  } catch (error) {
-    res.render('literacy/literacyJokeReading.ejs', { jokeData: error.response, jokeCategory: "error" });
-  }
-});
-
 // POST a new word
-router.post('/literacyHome/vocabGardenApp/words', async (req, res) => {
+router.post('/user/test', async (req, res) => {
+  console.log("api.js post router hit");
+  console.log(req.body);
   try {
-    const { word, definition } = req.body;
+    const { word, sentence, userId } = req.body;
     const result = await pool.query(
-      'INSERT INTO words (word, definition) VALUES ($1, $2) RETURNING *',
-      [word, definition]
+      'INSERT INTO vocab_cards (word, sentence, user_id) VALUES ($1, $2, $3) RETURNING *',
+      [word, sentence, userId]
     );
     res.json(result.rows[0]);
   } catch (err) {

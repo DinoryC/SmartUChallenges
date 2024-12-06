@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
-  const [isPending, setIsPending] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -18,11 +18,11 @@ const useFetch = (url) => {
       .then((data) => {
         setError(null);
         setData(data);
-        setIsPending(false);
+        setIsLoading(false);
       })
       .catch((err) => {
         if (err.name !== "AbortError") {
-          setIsPending(false);
+          setIsLoading(false);
           setError(err.message);
           console.error('Error fetching words:', err);
         }
@@ -31,7 +31,7 @@ const useFetch = (url) => {
       return () => abortCont.abort();
   }, [url]);
 
-  return { data, isPending, error };
+  return { data, isLoading, error };
 }
 
 export default useFetch;

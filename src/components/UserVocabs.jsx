@@ -3,50 +3,92 @@ import { useParams } from 'react-router-dom';
 import VocabCard from "./VocabCard";
 import CreateArea from "./CreateArea";
 import useFetch from "../hooks/useFetch";
-// import useFetch from "../../routes/api/";
+import useMutation from "../hooks/useMutation";
 
 function UserVocabs() {
-  // const [vocabArray, setVocabArray] = useState(null);
-  // const [isPending, setIsPending] = useState(true);
-  // const [error, setError] = useState(null);
-  // const { userId } = useParams();
-  const userId = 1;
-  // console.log("UserVocabs.jsx   useParams, userId = " + userId);
-  const { data: vocabArray, isPending, error } = useFetch(`/literacyHome/vocabGardenApp/user/test`);
-  function AddNewVocabCard(item) {
-    setVocabArray((prevArray) => {
-      return [...prevArray, item];
-    });
-  }
-
-  function updateVocabCard(newCardContent) {
-      // update content
-      // setVocabArray((prevValue) => {
-      //     return prevValue.filter((vocabCard, id) => {
-      //         return id !== index;
-      //     });
-      // });
-  }
-
-  function deleteVocabCard(index) {
-    setVocabArray((prevValue) => {
-      return prevValue.filter((vocabCard, id) => {
-        return id !== index;
-      });
-    });
-  }
+  const [appState, setAppState] = useState({vocabArray: [], isLoading: true, error: null});
   
+  // Fetch initial data
+  const { data: fetchedData, isLoading, error } = useFetch('/literacyHome/vocabGardenApp/user/test');
+  
+  // Set up mutations
+  const { data: addData, isLoading: addLoading, error: addError, mutate: addVocabCardMutate } = useMutation('/literacyHome/vocabGardenApp/user/test', 'POST');
+  const { data: editData, isLoading: editLoading, error: editError, mutate: editVocabCardMutate } = useMutation('/literacyHome/vocabGardenApp/user/test', 'PATCH');
+  const { data: deleteData, isLoading: deleteLoading, error: deleteError, mutate: deleteVocabCardMutate } = useMutation('/literacyHome/vocabGardenApp/user/test', 'DELETE');
+
+  // Sync fetched data into appState once available
+  useEffect(() => {
+    if (fetchedData) {
+      setAppState((prevState) => ({
+        ...prevState,
+        vocabArray: fetchedData,
+        isLoading: isLoading,
+        error: error,
+      }));
+      console.log(JSON.stringify(appState.vocabArray[3], null, 2))
+    }
+  }, [fetchedData, isLoading, error]);
+
+  // If addData changes (i.e., after a successful POST), update the state
+  useEffect(() => {
+    if (addData) {
+      setAppState((prevState) => ({
+        ...prevState,
+        vocabArray: [...prevState.vocabArray, addData]
+        
+      }));
+    }
+  }, [addData]);
+
+  // If editData changes (i.e., after a successful PATCH), update the relevant card
+  useEffect(() => {
+    if (editData) {
+      setAppState((prevState) => {
+        const updatedArray = prevState.vocabArray.map((card) =>
+          card.id === editData.id ? editData : card
+        );
+        return { ...prevState, vocabArray: updatedArray };
+      });
+    }
+  }, [editData]);
+
+  async function AddNewVocabCard(cardContent) {
+    try {
+      // Trigger the POST mutation
+      await addVocabCardMutate({ ...cardContent, userId: 1 });
+      // `addData` will be updated by the hook once complete, triggering the useEffect above.
+    } catch (err) {
+      console.error("Failed to add card:", err);
+    }
+  }
+
+  async function updateVocabCard(editedCardContent) {
+    try {
+      // NEED LOGIC HERE
+    } catch (err) {
+      console.error("Failed to edit card:", err);
+    }
+  }
+
+  async function deleteVocabCard(toBeDeletedCardID) {
+    try {
+      // NEED LOGIC HERE
+    } catch (err) {
+      console.error("Failed to delete card:", err);
+    }
+  }
+
   return (
     <div>
       <p>Test is working</p>
-      {error && <div>{error}</div>}
-      {isPending && <div>Loading...</div>}
-      {vocabArray && (
+      {appState.error && <div>{appState.error}</div>}
+      {appState.isLoading && <div>Loading...</div>}
+      {appState.vocabArray && (
         <div className="container-fluid">
           <div className="custom-container">
             <CreateArea addItemClicked={AddNewVocabCard} />
             <div className="row justify-content-center">
-              {vocabArray.map((wordCard, index) => (
+              {appState.vocabArray.map((wordCard, index) => (
                 <div
                   key={index}
                   className="
@@ -61,7 +103,8 @@ function UserVocabs() {
                   "
                 >
                   <VocabCard
-                    id={index}
+                    key={wordCard.vocab_id}
+                    vocabId={wordCard.vocab_id}
                     word={wordCard.word}
                     sentence={wordCard.sentence}
                     createdDate={wordCard.created_at.substring(0, 10)}
@@ -79,22 +122,6 @@ function UserVocabs() {
 }
 
 export default UserVocabs;
-
-  // Fetch all words on component mount
-  // useEffect(() => {
-  //   fetch(`/literacyHome/vocabGardenApp/user/${userId}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setError(null);
-  //       setVocabArray(data);
-  //       setIsPending(false);
-  //     })
-  //     .catch((err) => {
-  //       setIsPending(false);
-  //       setError(err.message);
-  //       console.error('Error fetching words:', err);
-  //     });
-  // }, []);
 
   // // Function to add a new word
   // const addWord = (newWord) => {

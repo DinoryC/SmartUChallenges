@@ -3,30 +3,19 @@ import AddIcon from '@mui/icons-material/Add';
 import Fab from '@mui/material/Fab';
 
 function CreateArea(props) {
-  const [inputContent, setInputContent] = useState({ word: "", sentence: "", createdDate: ""});
+  const [inputContent, setInputContent] = useState({ word: "", sentence: ""});
   const [isExpanded, setExpanded] = useState(false);
 
   function handleChange(e) {
     const { name, value } = e.target;
-    updateInputDate()
     setInputContent((prevValue) => {
       return { ...prevValue, [name]: value };
     });
   }
 
-  function updateInputDate() {
-    const today = new Date();
-    const dateCreated = `${String(today.getDate()).padStart(2, '0')}/${
-            String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`
-    console.log("input date = " + dateCreated);
-    setInputContent((prevValue) => {
-        return { ...prevValue, createdDate: dateCreated };
-    });
-  }
-
   function addButtonClicked(e) {
-    e.preventDefault();
-    setInputContent(() => ({ word: "", sentence: "", createdDate: ""}));
+    // e.preventDefault();
+    setInputContent(() => ({ word: "", sentence: ""}));
     setExpanded(false);
   }
 
