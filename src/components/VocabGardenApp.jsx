@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import UserVocabs from "./UserVocabs";
-import AuthPage from "./AuthPage";
+import AuthCard from "./AuthCard";
 import VocabGardenTopper from "./VocabGardenTopper";
 
 function VocabGardenApp() {
@@ -9,6 +9,7 @@ function VocabGardenApp() {
     <Router>
       <div className ="mt-3 mb-5">
         <VocabGardenTopper />
+        <AuthCard />
         <div className ="mt-3">
           <Switch>
             <Route exact path="/literacyHome/vocabGardenApp/user/:userId">
@@ -16,9 +17,6 @@ function VocabGardenApp() {
             </Route>
             <Route exact path="/literacyHome/vocabGardenApp/">
               <UserVocabs />
-            </Route>
-            <Route exact path="/AuthPage">
-              <AuthPage />
             </Route>
           </Switch>
         </div>
