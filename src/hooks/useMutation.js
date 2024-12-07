@@ -8,7 +8,6 @@ const useMutation = (url, method) => {
   const mutate = async (payload) => {
     setIsLoading(true);
     setError(null);
-    console.log(payload);
 
     try {
       const res = await fetch(url, {

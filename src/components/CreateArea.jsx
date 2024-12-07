@@ -14,7 +14,7 @@ function CreateArea(props) {
   }
 
   function addButtonClicked(e) {
-    // e.preventDefault();
+    e.preventDefault();
     setInputContent(() => ({ word: "", sentence: ""}));
     setExpanded(false);
   }
