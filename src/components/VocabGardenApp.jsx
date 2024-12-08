@@ -9,11 +9,10 @@ function VocabGardenApp() {
     <Router>
       <div className ="mt-3 mb-5">
         <VocabGardenTopper />
-        <AuthCard />
         <div className ="mt-3">
           <Switch>
-            <Route exact path="/literacyHome/vocabGardenApp/user/:userId">
-              <UserVocabs />
+            <Route exact path="/literacyHome/vocabGardenApp/Auth">
+              <AuthCard />
             </Route>
             <Route exact path="/literacyHome/vocabGardenApp/">
               <UserVocabs />

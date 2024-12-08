@@ -3,18 +3,20 @@ import LoginIcon from '@mui/icons-material/Login';
 import EmailIcon from '@mui/icons-material/Email';
 import GoogleIcon from '@mui/icons-material/Google';
 
+
 const AuthCard = () => {
+  const activeAndDefaultButtonColor = '#50a3a2';
+  const inactiveButtonColor = '#D7D3BF';
   const [activeForm, setActiveForm] = useState(null);
 
-  // Determine button text colors based on active form
   const getButtonColor = (buttonType) => {
     if (activeForm === null) {
-      return '#50a3a2'; // default color
+      return activeAndDefaultButtonColor; 
     }
     if (activeForm === buttonType) {
-      return '#50a3a2'; // active button retains original color
+      return activeAndDefaultButtonColor;
     }
-    return '#D7D3BF'; // inactive buttons turn dark grey
+    return inactiveButtonColor;
   };
 
   const handleButtonClick = (buttonType) => {
@@ -33,7 +35,7 @@ const AuthCard = () => {
           style={{ color: getButtonColor('logOn') }}
           onClick={() => handleButtonClick('logOn')}
         >
-          <LoginIcon style={{ marginRight: '10px' }} />
+          <LoginIcon className="muiIconOnButton" />
           Log On
         </button>
         {activeForm === 'logOn' && (
@@ -48,7 +50,7 @@ const AuthCard = () => {
           style={{ color: getButtonColor('signUpEmail') }}
           onClick={() => handleButtonClick('signUpEmail')}
         >
-          <EmailIcon style={{ marginRight: '10px' }} />
+          <EmailIcon className="muiIconOnButton" />
           Sign Up with Email
         </button>
         {activeForm === 'signUpEmail' && (
@@ -65,7 +67,7 @@ const AuthCard = () => {
           style={{ color: getButtonColor('signUpGoogle') }}
           onClick={() => handleButtonClick('signUpGoogle')}
         >
-          <GoogleIcon style={{ marginRight: '10px' }} />
+          <GoogleIcon className="muiIconOnButton" />
           Sign Up with Google
         </button>
         {/* No form for Google specified */}

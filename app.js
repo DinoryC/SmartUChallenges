@@ -7,6 +7,7 @@ import homepageRoutes from './routes/homepage.js';
 import numeracyHomeRoutes from './routes/numeracyHome.js';
 import literacyHomeRoutes from './routes/literacyHome.js';
 import apiRoutes from "./routes/api.js";
+import authRoutes from "./routes/auth.js";
 
 const PORT = process.env.PORT || 10000;
 
@@ -27,6 +28,7 @@ app.use('/', homepageRoutes);
 app.use('/numeracyHome', numeracyHomeRoutes);
 app.use('/literacyHome', literacyHomeRoutes);
 app.use('/literacyHome/vocabGardenApp', apiRoutes);
+app.use('/literacyHome/Auth', authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
