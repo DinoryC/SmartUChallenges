@@ -28,7 +28,7 @@ app.use('/', homepageRoutes);
 app.use('/numeracyHome', numeracyHomeRoutes);
 app.use('/literacyHome', literacyHomeRoutes);
 app.use('/literacyHome/vocabGardenApp', apiRoutes);
-app.use('/literacyHome/Auth', authRoutes);
+app.use('/literacyHome/vocabGardenApp/auth', authRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

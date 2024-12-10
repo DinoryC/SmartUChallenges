@@ -67,7 +67,7 @@ input[type="number"] {
 }
 
 /* ===============Start of Auth Page */
-.greatingCardContainer {
+.authCardContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +75,7 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
-.greatingCard {
+.authCard {
   background-color: transparent;
   border: 0.5px solid #50a3a2;
   border-radius: 7px;
@@ -89,7 +89,7 @@ input[type="number"] {
   max-width: 600px;
 }
 
-.greatingCard button {
+.authCard button {
   background-color: #fff;
   border: 0.5px solid #50a3a2;
   padding: 10px 15px;
@@ -103,18 +103,18 @@ input[type="number"] {
   cursor: pointer;
 }
 
-.greatingCard button:hover {
+.authCard button:hover {
   background-color: #f2f2f2;
 }
 
-.formContainer {
+.formContainer form {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 250px;
 }
 
-.formContainer input {
+.formContainer form input {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;

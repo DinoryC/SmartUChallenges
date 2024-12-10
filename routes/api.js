@@ -35,7 +35,6 @@ router.post('/user/test', async (req, res) => {
 
 // PATCH an existing vocab card
 router.patch('/user/test', async (req, res) => {
-  console.log("patch req.body: " + JSON.stringify(req.body, null, 2));
   try {
     const { vocabId, editedWord, editedSentence, userId } = req.body;
     const result = await pool.query(
