@@ -34,3 +34,15 @@ INSERT INTO vocab_cards (user_id, word, sentence) VALUES
 (1, 'Help', 'Can you help me with this?'),
 (1, 'Read', 'I love to read before bed.'),
 (1, 'Over', 'The game is finally over.');
+
+-- Create the 'session' table for connect-pg-simple
+CREATE TABLE IF NOT EXISTS public.session (
+    sid VARCHAR NOT NULL COLLATE "default",
+    sess JSON NOT NULL,
+    expire TIMESTAMP(6) NOT NULL,
+    CONSTRAINT session_pkey PRIMARY KEY (sid)
+)
+WITH (OIDS=FALSE);
+
+-- Create an index to automatically delete expired sessions
+CREATE INDEX IF NOT EXISTS idx_session_expire ON public.session(expire);

@@ -3,20 +3,20 @@ import pool from "./db.js";
 const router = express.Router();
 
 // GET all words by user's id
-router.get('/user/test', async (req, res) => {
-  try {
-    // const { userId } = req.params;
-    const userId = 1;
-    const result = await pool.query(
-      'SELECT vocab_id, word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
-      [userId]
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+// router.get('/user/test', async (req, res) => {
+//   try {
+//     // const { userId } = req.params;
+//     const userId = 1;
+//     const result = await pool.query(
+//       'SELECT vocab_id, word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
+//       [userId]
+//     );
+//     res.json(result.rows);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send('Server Error');
+//   }
+// });
 
 // POST a new word
 router.post('/user/test', async (req, res) => {

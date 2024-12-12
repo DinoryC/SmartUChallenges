@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LoginIcon from '@mui/icons-material/Login';
 import EmailIcon from '@mui/icons-material/Email';
 import GoogleIcon from '@mui/icons-material/Google';
-
+import useMutation from "../hooks/useMutation";
 
 const AuthCard = () => {
   const activeAndDefaultButtonColor = '#50a3a2';
@@ -12,6 +12,12 @@ const AuthCard = () => {
   const [logInContent, setLogInContent] = useState({ email: "", password: "" });
   const [signUpContent, setSignUpContent] = useState({ userName: "", email: "", password: "" });
   const [passwordMatching, setPasswordMatching] = useState("");
+
+  const { data: loginData, isLoading: loginLoading, error: loginError, mutate: loginMutate }
+    = useMutation('/literacyHome/vocabGardenApp/auth/login', 'POST');
+
+  const { data: registeNewUserData, isLoading: registeNewUserLoading, error: registeNewUserError, mutate: registeNewUserMutate }
+    = useMutation('/literacyHome/vocabGardenApp/auth/register', 'POST');
 
   function handleLogInChange(e) {
     const { name, value } = e.target;
@@ -41,7 +47,7 @@ const AuthCard = () => {
 
   const getButtonColor = (buttonType) => {
     if (activeForm === null) {
-      return activeAndDefaultButtonColor; 
+      return activeAndDefaultButtonColor;
     }
     if (activeForm === buttonType) {
       return activeAndDefaultButtonColor;
@@ -57,6 +63,22 @@ const AuthCard = () => {
       setActiveForm(buttonType);
     }
   };
+
+  const submitLogIn = async () => {
+    try {
+      await loginMutate(signUpContent);
+    } catch (err) {
+      console.error("Failed to registe the new user with email: " + signUpContent.email);
+    }
+  }
+
+  const submitRegister = async () => {
+    try {
+      await registeNewUserMutate(signUpContent);
+    } catch (err) {
+      console.error("Failed to registe the new user with email: " + signUpContent.email);
+    }
+  }
 
   return (
     <div className="authCardContainer">
@@ -74,24 +96,29 @@ const AuthCard = () => {
               <input
                 type="text"
                 name="email"
-                placeholder="Email  -required"
-                value={logInContent.email} 
+                placeholder="Email  Required*"
+                value={logInContent.email}
                 onChange={handleLogInChange}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
               <input
                 type="text"
                 name="password"
-                placeholder="Password  -required"
-                value={logInContent.password} 
+                placeholder="Password  Required*"
+                value={logInContent.password}
                 onChange={handleLogInChange}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
-              <button className="submitButton">Submit</button>
+              <button
+                className="submitButton"
+                onClick={() => submitLogIn()}
+              >
+                Submit
+              </button>
             </form>
           </div>
         )}
@@ -109,39 +136,39 @@ const AuthCard = () => {
               <input
                 type="text"
                 name="userName"
-                placeholder="User Name  -required"
-                value={signUpContent.userName} 
+                placeholder="User Name  Required*"
+                value={signUpContent.userName}
                 onChange={handleSingUpChange}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
               <input
                 type="text"
                 name="email"
-                placeholder="Email  -required"
-                value={signUpContent.email} 
+                placeholder="Email  Required*"
+                value={signUpContent.email}
                 onChange={handleSingUpChange}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
               <input
                 type="password"
                 name="password"
-                placeholder="Password  -required"
-                value={signUpContent.password} 
+                placeholder="Password  Required*"
+                value={signUpContent.password}
                 onChange={handleSingUpChange}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
               <input
                 type="password"
                 name="confirmPassword"
-                placeholder="Confirm Password  -required"
+                placeholder="Confirm Password  Required*"
                 onChange={handleConfirmingPassword}
-                autoComplete="off" 
+                autoComplete="off"
                 required
                 autofocus
               />
@@ -151,15 +178,20 @@ const AuthCard = () => {
                     passwordMatching === "Password match!"
                       ? "darkgreen"
                       : passwordMatching === "Password not match..."
-                      ? "darkred"
-                      : "black",
+                        ? "darkred"
+                        : "black",
                 }}
               >
                 {passwordMatching}
               </p>
-              <button className="submitButton" disabled={passwordMatching !== "Password match!"}>Submit</button>
+              <button
+                className="submitButton"
+                disabled={passwordMatching !== "Password match!"}
+                onClick={() => submitRegister()}
+              >Submit
+              </button>
             </form>
-            
+
           </div>
         )}
 

@@ -54,7 +54,6 @@ function UserVocabs() {
 
   async function AddNewVocabCard(cardContent) {
     try {
-      // Trigger the POST mutation
       await addVocabCardMutate({ ...cardContent, userId: 1 });
       // `addData` will be updated by the hook once complete, triggering the useEffect above.
     } catch (err) {
