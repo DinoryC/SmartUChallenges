@@ -13,12 +13,12 @@ function VocabGardenApp() {
         <VocabGardenTopper />
         <div className="mt-3">
           <Switch>
-            <Route exact path="/literacyHome/vocabGardenApp/">
+            {/* <Route exact path="/literacyHome/vocabGardenApp/">
               <authCard />
-            </Route>
+            </Route> */}
 
             {/* <Route exact path="/literacyHome/vocabGardenApp/user_id/:userId"> */}
-            <Route exact path="/literacyHome/vocabGardenApp/user/test">
+            <Route exact path="/literacyHome/vocabGardenApp/user">
               <UserVocabs />
             </Route>
 

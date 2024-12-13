@@ -1,91 +1,38 @@
 import express from 'express';
 import bodyParser from "body-parser";
 import pool from "./db.js";
-import connectPgSimple from "connect-pg-simple";
 import bcrypt from "bcrypt";
-import session from "express-session";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import env from "dotenv";
 
 const router = express.Router();
-const app = express();
 const saltRounds = 12;
 
-env.config();
-app.use(bodyParser.urlencoded({ extended: true }));
+router.get('/user', async (req, res) => {
 
-const pgSession = connectPgSimple(session);
+  console.log("get: /user   req = " + JSON.stringify(req, null, 2));
+  console.log("get: /user   req.user = " + JSON.stringify(req.user, null, 2));
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.redirect("/auth");
+  }
 
-app.use(
-  session({
-    store: new pgSession({
-      pool: pool, // Postgres pool
-      tableName: 'session' // optional, defaults to 'session'
-    }),
-    secret: process.env.SESSION_SECRET,
-    resave: false, // False to prevent unnecessary session resaves
-    saveUninitialized: false, // only save session if something stored
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 4,  // valid for 4 days
-      // secure: process.env.NODE_ENV === 'production', // Set to true in production
-      // httpOnly: true, // Helps prevent XSS
-      // sameSite: 'lax', // Adjust based on your frontend
-    },
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-  done(null, user.user_id);
-});
-
-passport.deserializeUser(async (id, done) => {
   try {
-    const result = await pool.query("SELECT user_id, email, username FROM users WHERE user_id = $1", [id]);
-    if (result.rows.length > 0) {
-      done(null, result.rows[0]);
-    } else {
-      done(null, false);
+    const { user_id: userId } = req.user.user_id;
+
+    // Optionally, you can also ensure the requested user matches the logged-in user
+    if (req.user && req.user.user_id !== parseInt(userId, 10)) {
+      return res.status(403).send('Access Denied');
     }
-  } catch (err) {
-    done(err, false);
-  }
-});
 
-router.get('/user/test', async (req, res) => {
-
-  console.log("get: /user/test" + JSON.stringify(req, null, 2));
-
-  if (!req.isAuthenticated()) {
-    // return // not authorithed
-  }
-
-  try {
-    // const { userId } = req.params;
-    const userId = req.user_id;
     const result = await pool.query(
-      'SELECT vocab_id, word, sentence, created_at FROM vocab_cards WHERE user_id = ($1) ORDER BY created_at DESC;',
+      'SELECT vocab_id, word, sentence, created_at FROM vocab_cards WHERE user_id = $1 ORDER BY created_at DESC;',
       [userId]
     );
+
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
-  }
-
-});
-
-router.get("/", (req, res) => {
-
-  console.log("get: /" + JSON.stringify(req, null, 2));
-
-  if (req.isAuthenticated()) {
-    res.redirect("/literacyHome/vocabGardenApp/user/test");
-  } else {
-    res.redirect("/literacyHome/vocabGardenApp/auth");
   }
 });
 
@@ -96,33 +43,16 @@ router.get("/logout", (req, res) => {
   });
 });
 
-router.get("/current_user", (req, res) => {
-  
-  console.log("get: /current_user" + JSON.stringify(req, null, 2));
-
-  if (req.isAuthenticated()) {
-    res.json({
-      isAuthenticated: true,
-      user_id: req.user.user_id,
-    });
-  } else {
-    res.json({
-      isAuthenticated: false,
-      user_id: null,
-    });
-  }
-});
-
 router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/literacyHome/vocabGardenApp/user/test",
-    failureRedirect: "/literacyHome/vocabGardenApp/auth",
-  })
+  "/auth/login",
+  passport.authenticate('local', { failureRedirect: "/literacyHome/vocabGardenApp/auth" }),
+  (req, res) => {
+    console.log("auth.js router.post/ login/ ")
+    res.redirect("/literacyHome/vocabGardenApp/user");
+  }
 );
 
-
-router.post("/register", async (req, res) => {
+router.post("/auth/register", async (req, res) => {
   const { email, userName, password } = req.body;
 
   try {
@@ -174,10 +104,12 @@ router.post("/register", async (req, res) => {
 
 });
 
-passport.use(
-  //Specify the fields (otherwise default username would be "username")
-  { usernameField: 'email', passwordField: 'password' },
-  new LocalStrategy(async function verify(email, password, done) {
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  async function (email, password, done) {
     try {
       const result = await pool.query(
         `SELECT a.password_hash, u.user_id
@@ -190,10 +122,9 @@ passport.use(
       if (result.rows.length > 0) {
         const user = result.rows[0];
         const storedHashedPassword = user.password_hash;
-
         const isValid = await bcrypt.compare(password, storedHashedPassword);
+
         if (isValid) {
-          // return done(null, { user_id: user.user_id });
           return done(null, user);
         } else {
           return done(null, false, { message: 'Incorrect password.' });
@@ -202,10 +133,31 @@ passport.use(
         return done(null, false, { message: 'User not found.' });
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       return done(err);
     }
-  })
-);
+  }
+));
+
+passport.serializeUser((user, done) => {
+  console.log("auth.js passport.serializeUser: user = ");
+  console.log(JSON.stringify(user, null, 2));
+  done(null, user.user_id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  console.log("auth.js passport.serializeUser: id = " + id);
+
+  try {
+    const result = await pool.query("SELECT user_id, email, username FROM users WHERE user_id = $1", [id]);
+    if (result.rows.length > 0) {
+      done(null, result.rows[0]);
+    } else {
+      done(null, false);
+    }
+  } catch (err) {
+    done(err, false);
+  }
+});
 
 export default router;

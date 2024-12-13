@@ -64,15 +64,19 @@ const AuthCard = () => {
     }
   };
 
-  const submitLogIn = async () => {
+  const submitLogIn = async (event) => {
+    console.log("submit Log In button presseed");
+    event.preventDefault();
     try {
-      await loginMutate(signUpContent);
+      console.log("try access backend");
+      await loginMutate(logInContent);
     } catch (err) {
-      console.error("Failed to registe the new user with email: " + signUpContent.email);
+      console.error("Failed to registe the new user with email: " + logInContent.email);
     }
   }
 
-  const submitRegister = async () => {
+  const submitRegister = async (e) => {
+    e.preventDefault();
     try {
       await registeNewUserMutate(signUpContent);
     } catch (err) {
@@ -101,10 +105,9 @@ const AuthCard = () => {
                 onChange={handleLogInChange}
                 autoComplete="off"
                 required
-                autofocus
               />
               <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="Password  Required*"
                 value={logInContent.password}
@@ -115,7 +118,8 @@ const AuthCard = () => {
               />
               <button
                 className="submitButton"
-                onClick={() => submitLogIn()}
+                type="submit"
+                onClick={(event) => submitLogIn(event)}
               >
                 Submit
               </button>
