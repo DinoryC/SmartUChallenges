@@ -82,7 +82,7 @@ router.delete('/', async (req, res) => {
   try {
     const { user_id } = req.user;
     const { vocabId } = req.body;
-    await pool.query('DELETE FROM vocab_cards WHERE vocab_id = $1 AND user_id = $2', [vocabId, userId]);
+    await pool.query('DELETE FROM vocab_cards WHERE vocab_id = $1 AND user_id = $2', [vocabId, user_id]);
     res.json({ message: 'Word deleted' });
   } catch (err) {
     console.error(err.message);
