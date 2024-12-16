@@ -149,21 +149,48 @@ input[type="number"] {
 
 .vocabGardenTopper {
   width: 100%;
-  height: 120px;
+  height: 160px;
   border-radius: 7px;
   background-color: #FADA7A;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   padding: 10px;
   box-sizing: border-box;
-  /* font-family: "Comic Sans MS", cursive, sans-serif; */
   color: #333;
 }
 
+@media (max-width: 768px) {
+  .vocabGardenTopper {
+    height: 230px;
+  }
+}
+
+@media (max-width: 440px) {
+  .vocabGardenTopper {
+    height: 250px;
+  }
+}
+
+.greetingUser {
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  padding: 10px;
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.logOutButton {
+  height: 66px;
+}
+
 .headingStyle {
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-size: 2.1em;
   font-weight: bold;
   margin: 0;
