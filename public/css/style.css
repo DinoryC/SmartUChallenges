@@ -251,6 +251,12 @@ form.create-newVocabCard {
   box-shadow: 0 1px 5px rgb(138, 137, 137);
 }
 
+@media (max-width: 550px) {
+  form.create-newVocabCard {
+    width: 97%;
+  }
+}
+
 form.create-newVocabCard input,
 form.create-newVocabCard textarea {
   width: 100%;
