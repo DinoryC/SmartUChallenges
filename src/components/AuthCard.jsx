@@ -4,9 +4,9 @@ import EmailIcon from '@mui/icons-material/Email';
 import GoogleIcon from '@mui/icons-material/Google';
 import useMutation from "../hooks/useMutation";
 
-const AuthCard = () => {
-  const activeAndDefaultButtonColor = '#50a3a2';
-  const inactiveButtonColor = '#D7D3BF';
+const AuthCard = (props) => {
+  const activeAndDefaultFormColor = '#50a3a2';
+  const inactiveFormColor = '#D7D3BF';
   const [activeForm, setActiveForm] = useState(null);
 
   const [logInContent, setLogInContent] = useState({ email: "", password: "" });
@@ -47,12 +47,12 @@ const AuthCard = () => {
 
   const getButtonColor = (buttonType) => {
     if (activeForm === null) {
-      return activeAndDefaultButtonColor;
+      return activeAndDefaultFormColor;
     }
     if (activeForm === buttonType) {
-      return activeAndDefaultButtonColor;
+      return activeAndDefaultFormColor;
     }
-    return inactiveButtonColor;
+    return inactiveFormColor;
   };
 
   const handleButtonClick = (buttonType) => {
@@ -65,11 +65,12 @@ const AuthCard = () => {
   };
 
   const submitLogIn = async (event) => {
-    console.log("submit Log In button presseed");
     event.preventDefault();
     try {
-      console.log("try access backend");
-      await loginMutate(logInContent);
+      var response = await loginMutate(logInContent);
+      if (response.success) {
+        props.updateUser();
+      }
     } catch (err) {
       console.error("Failed to registe the new user with email: " + logInContent.email);
     }

@@ -10,15 +10,15 @@ function UserVocabs(props) {
 
   // Fetch initial data
   const { data: fetchedData, isLoading, error }
-    = useFetch('/literacyHome/vocabGardenApp/user');
+    = useFetch('/literacyHome/vb/user/');
 
   // Set up mutations
   const { data: addData, isLoading: addLoading, error: addError, mutate: addVocabCardMutate }
-    = useMutation('/literacyHome/vocabGardenApp/user/test', 'POST');
+    = useMutation('/literacyHome/vb/user/', 'POST');
   const { data: editData, isLoading: editLoading, error: editError, mutate: editVocabCardMutate }
-    = useMutation('/literacyHome/vocabGardenApp/user/test', 'PATCH');
+    = useMutation('/literacyHome/vb/user/', 'PATCH');
   const { data: deleteData, isLoading: deleteLoading, error: deleteError, mutate: deleteVocabCardMutate }
-    = useMutation('/literacyHome/vocabGardenApp/user/test', 'DELETE');
+    = useMutation('/literacyHome/vb/user/', 'DELETE');
 
   // Sync fetched data into appState once available
   useEffect(() => {
@@ -33,7 +33,7 @@ function UserVocabs(props) {
     }
   }, [fetchedData, isLoading, error]);
 
-  // If addData changes (i.e., after a successful POST), update the state
+  // Handle Patch
   useEffect(() => {
     if (addData) {
       setAppState((prevState) => ({
@@ -44,7 +44,7 @@ function UserVocabs(props) {
     }
   }, [addData]);
 
-  // If editData changes (i.e., after a successful PATCH), update the relevant card
+  // Handle Delete
   useEffect(() => {
     if (editData) {
       setAppState((prevState) => {
@@ -58,8 +58,7 @@ function UserVocabs(props) {
 
   async function AddNewVocabCard(cardContent) {
     try {
-      await addVocabCardMutate({ ...cardContent, userId: 1 });
-      // `addData` will be updated by the hook once complete, triggering the useEffect above.
+      await addVocabCardMutate(cardContent);
     } catch (err) {
       console.error("Failed to add card:", err);
     }
@@ -67,12 +66,7 @@ function UserVocabs(props) {
 
   async function updateVocabCard(editedCardContent) {
     try {
-      // Destructure editedCardContent
-      const { vocabId, editedWord, editedSentence } = editedCardContent;
-
-      // Trigger the PATCH mutation
-      await editVocabCardMutate({ vocabId, editedWord, editedSentence, userId: 1 });
-      // `editData` effect will handle updating state once mutation succeeds
+      await editVocabCardMutate(editedCardContent);
     } catch (err) {
       console.error("Failed to edit card:", err);
     }
@@ -80,8 +74,7 @@ function UserVocabs(props) {
 
   async function deleteVocabCard(toBeDeletedCardID) {
     try {
-      await deleteVocabCardMutate({ vocabId: toBeDeletedCardID, userId: 1 });
-      // Once the delete is successful, we should also remove it from state:
+      await deleteVocabCardMutate({ vocabId: toBeDeletedCardID });
       setAppState((prevState) => {
         const updatedArray = prevState.vocabArray.filter((card) => card.vocab_id !== toBeDeletedCardID);
         return { ...prevState, vocabArray: updatedArray };

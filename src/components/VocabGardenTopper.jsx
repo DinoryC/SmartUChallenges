@@ -4,15 +4,15 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const VocabGardenTopper = (props) => {
 
-  // const handleLogout = () => {
-  //   axios.get('/logout', { withCredentials: true })
-  //     .then(response => {
-  //       props.setAuthState({ isAuthenticated: false, user: null });
-  //     })
-  //     .catch(error => {
-  //       console.error("Error logging out:", error);
-  //     });
-  // };
+  const handleLogout = () => {
+    axios.get('/logout', { withCredentials: true })
+      .then(response => {
+        props.setAuthState({ isAuthenticated: false, user: null });
+      })
+      .catch(error => {
+        console.error("Error logging out:", error);
+      });
+  };
 
   return (
     <div className="vocabGardenTopper">
@@ -24,11 +24,11 @@ const VocabGardenTopper = (props) => {
         <span role="img" aria-label="pencil for writing">✏️</span>
         <span role="img" aria-label="butterfly">🦋</span>
       </div>
-      {/* <div >
+      <div >
         {props.authState.isAuthenticated && (
           <button onClick={handleLogout}><LogoutIcon />Logout</button>
         )}
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -3,10 +3,7 @@ import axios from "axios";
 import bodyParser from "body-parser";
 
 const router = express.Router();
-const app = express();
 const API_URL = "https://v2.jokeapi.dev/joke";
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({ extended: true }));
 
 router.get('/', (req, res) => {
     res.render('literacy/literacyHome.ejs');

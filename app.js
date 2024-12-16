@@ -12,7 +12,7 @@ import homepageRoutes from './routes/homepage.js';
 import numeracyHomeRoutes from './routes/numeracyHome.js';
 import literacyHomeRoutes from './routes/literacyHome.js';
 import authRoutes from "./routes/auth.js";
-// import apiRoutes from "./routes/api.js";
+import apiRoutes from "./routes/api.js"
 
 const PORT = process.env.PORT || 10000;
 const app = express();
@@ -52,9 +52,9 @@ app.use(passport.session());
 app.use('/', homepageRoutes);
 app.use('/numeracyHome', numeracyHomeRoutes);
 app.use('/literacyHome', literacyHomeRoutes);
-app.use('/literacyHome/vocabGardenApp', authRoutes);
-// app.use('/literacyHome/vocabGardenApp', apiRoutes);
+app.use('/literacyHome/vb/auth', authRoutes);
+app.use('/literacyHome/vb/user', apiRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
