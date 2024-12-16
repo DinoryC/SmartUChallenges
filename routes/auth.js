@@ -8,14 +8,14 @@ const router = express.Router();
 const saltRounds = 12;
 
 router.get("/getUser", (req, res) => {
-  console.log("auth.js,  /getUser  hit");
   if (req.isAuthenticated()) {
-    console.log()
+    console.log("auth.js,  /getUser  hit   -- isAuthenticated = true! ")
     res.json({
       isAuthenticated: true,
       user: req.user
     });
   } else {
+    console.log("auth.js,  /getUser  hit   -- isAuthenticated = false! ")
     res.json({
       isAuthenticated: false,
       user: null,
@@ -31,17 +31,17 @@ router.get("/logout", (req, res) => {
 });
 
 router.post(
-  "/auth/login",
+  "/login",
   passport.authenticate('local', { failureRedirect: "/literacyHome/vocabGardenApp/auth" }),
-  (req, res) => {
-    console.log("auth.js router.post/ login/ ");
+  async (req, res) => {
+    console.log("auth.js router.post   /login ");
     res.json({ success: true });
-    // res.json({ success: true, redirectUrl: "/literacyHome/vocabGardenApp/user" });
   }
 );
 
-router.post("/auth/register", async (req, res) => {
-  console.log("auth.js,  /auth/register  post = " + JSON.stringify(req.body, null, 2));
+router.post("/register", async (req, res) => {
+  console.log("auth.js router.post   /register ");
+  console.log("auth.js router.post   /register   req.body = " + JSON.stringify(req.body, null, 2));
   const { email, userName, password } = req.body;
 
   try {
@@ -61,36 +61,28 @@ router.post("/auth/register", async (req, res) => {
       console.log("hash = " + hash);
 
       // Insert into users table
-      const insertUserResult = await pool.query(
-        "INSERT INTO users (email, username) VALUES ($1, $2) RETURNING user_id",
+      const newRegisteredUser = await pool.query(
+        "INSERT INTO users (email, username) VALUES ($1, $2) RETURNING *",
         [email, userName]
       );
-      const newUserId = insertUserResult.rows[0].user_id;
+
+      const newUser = newRegisteredUser.rows[0]
 
       // Insert into auth_providers for local provider
       await pool.query(
         "INSERT INTO auth_providers (user_id, provider, password_hash) VALUES ($1, 'local', $2)",
-        [newUserId, hash]
+        [newUser.user_id, hash]
       );
 
-      // Retrieve the newly created user
-      const newUser = { user_id: newUserId, email, username };
-
-      // Log in the user
-      // req.login(newUser, (err) => {
-      //   if (err) {
-      //     console.error("Error logging in user:", err);
-      //     return res.sendStatus(500);
-      //   }
-      //   console.log("User registered and logged in successfully");
-      //   res.redirect("/literacyHome/vocabGardenApp/");
-      // })
+      req.login(newUser, (err) => {
+        console.log(err);
+        res.json({ success: true });
+      });
     }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
   }
-
 });
 
 passport.use(new LocalStrategy(
@@ -115,11 +107,14 @@ passport.use(new LocalStrategy(
         const isValid = await bcrypt.compare(password, storedHashedPassword);
 
         if (isValid) {
+          console.log("passport local check -- password is valid!");
           return done(null, user);
         } else {
+          console.log("passport local check -- password is NOT valid!");
           return done(null, false, { message: 'Incorrect password.' });
         }
       } else {
+        console.log("passport local check -- User not found.");
         return done(null, false, { message: 'User not found.' });
       }
     } catch (err) {

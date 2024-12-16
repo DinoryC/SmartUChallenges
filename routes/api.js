@@ -1,17 +1,13 @@
 import express from 'express';
 import pool from "./db.js";
-// import * as util from 'util'; // Optional, for complex logging
 const router = express.Router();
 
 // GET all words by user's id
 router.get('/', async (req, res) => {
-  console.log("api.js   / req = " + JSON.stringify(req.user, null, 2));
-  console.log("api.js   / req.isAuthenticated() = " + JSON.stringify(req.isAuthenticated()));
-  // console.log("api.js  /  req = ", util.inspect(req, { depth: 2 }));
   if (!req.isAuthenticated()) {
     return res.status(500).send('unauthorised user access denied');
   }
-  
+
   try {
     const { user_id } = req.user;
     const result = await pool.query(
@@ -32,11 +28,8 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    console.log("api.js   / req.user " + JSON.stringify(req.user, null, 2));
-    console.log("api.js   / req.body " + JSON.stringify(req.body, null, 2));
     const { user_id } = req.user;
     const { word, sentence } = req.body;
-    console.log(`api.js  / post  check... user_id = ${user_id}, word= ${word}, sentence= ${sentence}`);
     const result = await pool.query(
       'INSERT INTO vocab_cards (word, sentence, user_id) VALUES ($1, $2, $3) RETURNING *',
       [word, sentence, user_id]

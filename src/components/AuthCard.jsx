@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import LoginIcon from '@mui/icons-material/Login';
 import EmailIcon from '@mui/icons-material/Email';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -13,11 +13,27 @@ const AuthCard = (props) => {
   const [signUpContent, setSignUpContent] = useState({ userName: "", email: "", password: "" });
   const [passwordMatching, setPasswordMatching] = useState("");
 
-  const { data: loginData, isLoading: loginLoading, error: loginError, mutate: loginMutate }
-    = useMutation('/literacyHome/vocabGardenApp/auth/login', 'POST');
+  const { data: loginData, mutate: loginMutate }
+    = useMutation('/literacyHome/vb/auth/login', 'POST');
 
-  const { data: registeNewUserData, isLoading: registeNewUserLoading, error: registeNewUserError, mutate: registeNewUserMutate }
-    = useMutation('/literacyHome/vocabGardenApp/auth/register', 'POST');
+  const { data: registeNewUserData, mutate: registeNewUserMutate }
+    = useMutation('/literacyHome/vb/auth/register', 'POST');
+
+  useEffect(() => {
+    if (loginData) {
+      if (loginData.success) {
+        props.updateUser();
+      }
+    }
+  }, [loginData]);
+
+  useEffect(() => {
+    if (registeNewUserData) {
+      if (registeNewUserData.success) {
+        props.updateUser();
+      }
+    }
+  }, [registeNewUserData]);
 
   function handleLogInChange(e) {
     const { name, value } = e.target;
@@ -64,15 +80,12 @@ const AuthCard = (props) => {
     }
   };
 
-  const submitLogIn = async (event) => {
-    event.preventDefault();
+  const submitLogIn = async (e) => {
+    e.preventDefault();
     try {
-      var response = await loginMutate(logInContent);
-      if (response.success) {
-        props.updateUser();
-      }
+      await loginMutate(logInContent);
     } catch (err) {
-      console.error("Failed to registe the new user with email: " + logInContent.email);
+      console.error("Failed to log in with email: " + logInContent.email);
     }
   }
 
@@ -192,7 +205,7 @@ const AuthCard = (props) => {
               <button
                 className="submitButton"
                 disabled={passwordMatching !== "Password match!"}
-                onClick={() => submitRegister()}
+                onClick={(event) => submitRegister(event)}
               >Submit
               </button>
             </form>

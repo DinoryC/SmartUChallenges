@@ -37,9 +37,10 @@ function VocabGardenApp() {
     return <div>Loading...</div>;
   }
 
-  if (!user.isAuthenticated && window.location.pathname !== "/literacyHome/vocabGardenApp/auth") {
-    return <Navigate to="/literacyHome/vocabGardenApp/auth" replace />;
-  }
+  // if (!user.isAuthenticated && window.location.pathname !== "/literacyHome/vocabGardenApp/auth") {
+  //   return <Navigate to="/literacyHome/vocabGardenApp/auth" replace />;
+  // }
+
 
   return (
     <Router>

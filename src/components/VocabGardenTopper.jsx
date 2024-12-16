@@ -5,7 +5,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const VocabGardenTopper = (props) => {
 
   const handleLogout = () => {
-    axios.get('/logout', { withCredentials: true })
+    axios.get('/literacyHome/vb/auth/logout', { withCredentials: true })
       .then(response => {
         props.setAuthState({ isAuthenticated: false, user: null });
       })

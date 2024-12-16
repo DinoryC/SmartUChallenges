@@ -33,7 +33,7 @@ function UserVocabs(props) {
     }
   }, [fetchedData, isLoading, error]);
 
-  // Handle Patch
+  // Handle POST
   useEffect(() => {
     if (addData) {
       setAppState((prevState) => ({
@@ -44,7 +44,7 @@ function UserVocabs(props) {
     }
   }, [addData]);
 
-  // Handle Delete
+  // Handle PATCH
   useEffect(() => {
     if (editData) {
       setAppState((prevState) => {
