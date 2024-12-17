@@ -46,13 +46,32 @@ router.get(
 );
 
 router.post(
-  "/login",
-  passport.authenticate('local', { failureRedirect: "/literacyHome/vocabGardenApp/auth" }),
-  async (req, res) => {
-    console.log("auth.js router.post   /login ");
-    res.json({ success: true });
-  }
-);
+  "/login", 
+  (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      console.error("Authentication Error:", err);
+      return res.json({ success: false, message: 'Internal Server Error' });
+    }
+
+    if (!user) {
+      // Authentication failed
+      return res.json({ success: false, message: info.message || 'Invalid email or password' });
+    }
+
+    // Log the user in
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error("Login Error:", err);
+        return res.json({ success: false, message: 'Internal Server Error' });
+      }
+
+      // Successful authentication
+      console.log("auth.js router.post   /login ");
+      return res.json({ success: true });
+    });
+  })(req, res, next);
+});
 
 router.post("/register", async (req, res) => {
   const { email, userName, password } = req.body;
@@ -68,10 +87,8 @@ router.post("/register", async (req, res) => {
       // User already exists
       return res.json({ registerDeny: "Email already exists. Try logging in." })
     } else {
-      // Add new user to database
       const hash = await bcrypt.hash(password, saltRounds);
 
-      // Insert into users table
       const newRegisteredUser = await pool.query(
         "INSERT INTO users (email, username) VALUES ($1, $2) RETURNING *",
         [email, userName]
@@ -79,7 +96,6 @@ router.post("/register", async (req, res) => {
 
       const newUser = newRegisteredUser.rows[0]
 
-      // Insert into auth_providers for local provider
       await pool.query(
         "INSERT INTO auth_providers (user_id, provider, password_hash) VALUES ($1, 'local', $2)",
         [newUser.user_id, hash]
@@ -121,11 +137,11 @@ passport.use(new LocalStrategy(
           return done(null, user);
         } else {
           console.log("passport local check -- password is NOT valid!");
-          return done(null, false, { message: 'Incorrect password.' });
+          return done(null, false, { message: 'Invalid email or password.' });
         }
       } else {
         console.log("passport local check -- User not found.");
-        return done(null, false, { message: 'User not found.' });
+        return done(null, false, { message: 'Invalid email or password.' });
       }
     } catch (err) {
       console.error(err);

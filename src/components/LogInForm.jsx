@@ -4,13 +4,19 @@ import useMutation from "../hooks/useMutation";
 
 const LogInForm = (props) => {
     const [logInContent, setLogInContent] = useState({ email: "", password: "" });
+    const [displayingInfo, setDisplayingInfo] = useState("");
     const { data: loginData, mutate: loginMutate }
         = useMutation('/literacyHome/vb/auth/login', 'POST');
 
     useEffect(() => {
+        console.log("loginData: " + JSON.stringify(loginData, null, 2));
         if (loginData) {
             if (loginData.success) {
+                setLogInContent({ email: "", password: "" });
+                setDisplayingInfo("");
                 props.logInSuccess();
+            } else {
+                setDisplayingInfo(loginData.message);
             }
         }
     }, [loginData]);
@@ -62,6 +68,7 @@ const LogInForm = (props) => {
                             required
                             autofocus
                         />
+                        <p>{displayingInfo}</p>
                         <button
                             className="submitButton"
                             type="submit"

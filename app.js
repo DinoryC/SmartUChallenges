@@ -38,7 +38,7 @@ app.use(
     resave: false, // False to prevent unnecessary session resaves
     saveUninitialized: false, // only save session if something stored
     cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 4,  // valid for 4 days
+      maxAge: 1000 * 60 * 60 * 24 * 14,  // valid for 14 days
     },
   })
 );
