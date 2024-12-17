@@ -49,14 +49,15 @@ const AuthCard = (props) => {
           getButtonColor={getButtonColor}
         />
 
-        <button
-          style={{ color: getButtonColor('signUpGoogle') }}
-          onClick={() => formChosen('signUpGoogle')}
-        >
-          <GoogleIcon className="muiIconOnButton" />
-          Sign Up with Google
-        </button>
-        {/* No form for Google specified */}
+        <a href="/literacyHome/vb/auth/google">
+          <button
+            style={{ color: getButtonColor('signUpGoogle') }}
+            onClick={() => formChosen('signUpGoogle')}
+          >
+            <GoogleIcon className="muiIconOnButton" />
+            Sign Up with Google
+          </button>
+        </a>
 
       </div>
     </div>

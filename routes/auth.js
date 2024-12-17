@@ -3,6 +3,7 @@ import pool from "./db.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import GoogleStrategy from "passport-google-oauth2";
 
 const router = express.Router();
 const saltRounds = 12;
@@ -29,6 +30,20 @@ router.get("/logout", (req, res) => {
     res.redirect("/literacyHome/vocabGardenApp/auth");
   });
 });
+
+router.get("/google", 
+  passport.authenticate("google", {
+  scope: ["profile", "email"],
+  })
+);
+
+router.get(
+  "/auth/google/",
+  passport.authenticate("google", { 
+    successRedirect: "/literacyHome/vocabGardenApp/user",
+    failureRedirect: "/literacyHome/vocabGardenApp/auth",
+  })
+);
 
 router.post(
   "/login",
@@ -123,6 +138,45 @@ passport.use(new LocalStrategy(
     }
   }
 ));
+
+passport.use("google", 
+  new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:10000/literacyHome/vb/auth/auth/google",
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", 
+  }, async (accessToken, refreshToken, profile, done) => {
+    console.log("google passport profile: ");
+    console.log("google passport profile: " + JSON.stringify(profile, null, 2));
+
+    try {
+      const result = await pool.query("SELECT * FROM users WHERE email = $1",
+        [profile.email]
+      )
+      if (result.rows.length === 0) {
+        const username = profile.email.split('@')[0];
+        console.log("getting username = " + username);
+        const newGoogleSignUpUser = await pool.query("INSERT INTO users (email, username) VALUES ($1, $2) RETURNING *",
+          [profile.email, username]
+        )
+
+        const newUser = newGoogleSignUpUser.rows[0]
+
+        await pool.query(
+          "INSERT INTO auth_providers (user_id, provider, password_hash) VALUES ($1, 'Google', $2)",
+          [newUser.user_id, 'Google']
+        );
+
+        done(null, newUser);
+      } else {
+        // Already an existing user
+        done(null, result.rows[0]);
+      }
+    } catch(err) {
+      done(err);
+    }
+  }
+))
 
 passport.serializeUser((user, done) => {
   console.log("auth.js passport.serializeUser: user = ");
