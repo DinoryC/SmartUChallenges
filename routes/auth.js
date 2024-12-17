@@ -55,8 +55,6 @@ router.post(
 );
 
 router.post("/register", async (req, res) => {
-  console.log("auth.js router.post   /register ");
-  console.log("auth.js router.post   /register   req.body = " + JSON.stringify(req.body, null, 2));
   const { email, userName, password } = req.body;
 
   try {
@@ -68,12 +66,10 @@ router.post("/register", async (req, res) => {
 
     if (checkResult.rows.length > 0) {
       // User already exists
-      res.send("Email already exists. Try logging in.");
-      return res.redirect("/literacyHome/vocabGardenApp/auth");
+      return res.json({ registerDeny: "Email already exists. Try logging in." })
     } else {
       // Add new user to database
       const hash = await bcrypt.hash(password, saltRounds);
-      console.log("hash = " + hash);
 
       // Insert into users table
       const newRegisteredUser = await pool.query(
@@ -106,7 +102,6 @@ passport.use(new LocalStrategy(
     passwordField: 'password'
   },
   async function (email, password, done) {
-    console.log("auth.js passport.use try valify... ");
     try {
       const result = await pool.query(
         `SELECT a.password_hash, u.user_id
@@ -146,9 +141,6 @@ passport.use("google",
     callbackURL: "http://localhost:10000/literacyHome/vb/auth/auth/google",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", 
   }, async (accessToken, refreshToken, profile, done) => {
-    console.log("google passport profile: ");
-    console.log("google passport profile: " + JSON.stringify(profile, null, 2));
-
     try {
       const result = await pool.query("SELECT * FROM users WHERE email = $1",
         [profile.email]

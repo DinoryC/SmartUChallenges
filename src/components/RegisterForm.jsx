@@ -4,12 +4,18 @@ import useMutation from "../hooks/useMutation";
 
 const RegisterForm = (props) => {
     const [signUpContent, setSignUpContent] = useState({ userName: "", email: "", password: "" });
-    const [passwordMatching, setPasswordMatching] = useState("");
+    const [confirmPasswordValue, setconfirmPasswordValue] = useState("");
+    const [displayingInfo, setDisplayingInfo] = useState("");
     const { data: registeNewUserData, mutate: registeNewUserMutate }
         = useMutation('/literacyHome/vb/auth/register', 'POST');
 
     useEffect(() => {
         if (registeNewUserData) {
+            if (registeNewUserData.registerDeny != null) {
+                setDisplayingInfo(registeNewUserData.registerDeny);
+                setSignUpContent({ userName: "", email: "", password: "" });
+                setconfirmPasswordValue("");
+            }
             if (registeNewUserData.success) {
                 props.rigisterSuccess();
             }
@@ -21,13 +27,15 @@ const RegisterForm = (props) => {
         setSignUpContent((prevValue) => ({ ...prevValue, [name]: value }));
     };
 
-    const handleConfirmingPassword = ({ target: { value } }) => {
-        if (!value) {
-            setPasswordMatching("");
+    const handleConfirmingPassword = (e) => {
+        const { value } = e.target
+        setconfirmPasswordValue(value);
+        if (value === "") {
+            setDisplayingInfo("");
         } else if (value === signUpContent.password) {
-            setPasswordMatching("Password match!");
+            setDisplayingInfo("Password match!");
         } else {
-            setPasswordMatching("Password not match...");
+            setDisplayingInfo("Password not match...");
         }
     };
 
@@ -85,6 +93,7 @@ const RegisterForm = (props) => {
                         <input
                             type="password"
                             name="confirmPassword"
+                            value={confirmPasswordValue}
                             placeholder="Confirm Password  Required*"
                             onChange={handleConfirmingPassword}
                             autoComplete="off"
@@ -94,18 +103,18 @@ const RegisterForm = (props) => {
                         <p
                             style={{
                                 color:
-                                    passwordMatching === "Password match!"
+                                    displayingInfo === "Password match!"
                                         ? "darkgreen"
-                                        : passwordMatching === "Password not match..."
+                                        : displayingInfo === "Password not match..."
                                             ? "darkred"
                                             : "black",
                             }}
                         >
-                            {passwordMatching}
+                            {displayingInfo}
                         </p>
                         <button
                             className="submitButton"
-                            disabled={passwordMatching !== "Password match!"}
+                            disabled={displayingInfo !== "Password match!"}
                             onClick={(event) => submitRegister(event)}
                         >Submit
                         </button>
