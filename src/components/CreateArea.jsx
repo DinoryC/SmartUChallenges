@@ -43,7 +43,7 @@ function CreateArea(props) {
         <Fab
           onClick={() => {
             props.addItemClicked(inputContent);
-            addButtonClicked();
+            addButtonClicked(event);
           }}
         >
           <AddIcon />

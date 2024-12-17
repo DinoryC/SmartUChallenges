@@ -108,6 +108,7 @@ input[type="number"] {
 }
 
 .formContainer form {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -122,14 +123,12 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
-/* Submit button matches the styling of the active button:
-   white background, teal text, teal border */
 .submitButton {
   background-color: #fff;
   border: 0.5px solid #50a3a2;
   color: #50a3a2;
   font-size: 16px;
-  padding: 8px 15px;
+  padding: 2px 15px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;
@@ -149,21 +148,48 @@ input[type="number"] {
 
 .vocabGardenTopper {
   width: 100%;
-  height: 120px;
+  height: 170px;
   border-radius: 7px;
   background-color: #FADA7A;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
   padding: 10px;
   box-sizing: border-box;
-  /* font-family: "Comic Sans MS", cursive, sans-serif; */
   color: #333;
 }
 
+@media (max-width: 768px) {
+  .vocabGardenTopper {
+    height: 230px;
+  }
+}
+
+@media (max-width: 440px) {
+  .vocabGardenTopper {
+    height: 250px;
+  }
+}
+
+.greetingUser {
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  padding: 10px;
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.logOutButton {
+  height: 66px;
+}
+
 .headingStyle {
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
   font-size: 2.1em;
   font-weight: bold;
   margin: 0;
@@ -222,6 +248,12 @@ form.create-newVocabCard {
   padding: 15px;
   border-radius: 7px;
   box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+@media (max-width: 550px) {
+  form.create-newVocabCard {
+    width: 97%;
+  }
 }
 
 form.create-newVocabCard input,
