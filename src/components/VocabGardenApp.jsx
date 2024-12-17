@@ -1,4 +1,3 @@
-// VocabGardenApp.jsx
 import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import UserVocabs from "./UserVocabs";
@@ -15,7 +14,6 @@ function VocabGardenApp() {
   const fetchUserData = useCallback(async () => {
     try {
       const res = await axios.get('/literacyHome/vb/auth/getUser');
-      console.log("VocabGardenApp.jsx + get /getUser: res.data = ", res.data);
       const { isAuthenticated, user: fetchedUser } = res.data || {};
       setUser({
         isAuthenticated: !!isAuthenticated,
@@ -30,17 +28,12 @@ function VocabGardenApp() {
   }, []);
 
   useEffect(() => {
-    fetchUserData();  // Initial user fetch on load
+    fetchUserData();
   }, [fetchUserData]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
-
-  // if (!user.isAuthenticated && window.location.pathname !== "/literacyHome/vocabGardenApp/auth") {
-  //   return <Navigate to="/literacyHome/vocabGardenApp/auth" replace />;
-  // }
-
 
   return (
     <Router>

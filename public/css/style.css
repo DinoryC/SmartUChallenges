@@ -108,6 +108,7 @@ input[type="number"] {
 }
 
 .formContainer form {
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -122,14 +123,12 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
-/* Submit button matches the styling of the active button:
-   white background, teal text, teal border */
 .submitButton {
   background-color: #fff;
   border: 0.5px solid #50a3a2;
   color: #50a3a2;
   font-size: 16px;
-  padding: 8px 15px;
+  padding: 2px 15px;
   border-radius: 5px;
   cursor: pointer;
   display: flex;

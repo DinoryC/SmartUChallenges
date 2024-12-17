@@ -55,8 +55,6 @@ const VocabGardenTopper = (props) => {
           )}
         </div>
       </div>
-
-
     </div>
   );
 };
