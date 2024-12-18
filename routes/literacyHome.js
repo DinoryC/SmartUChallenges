@@ -18,9 +18,14 @@ router.get("/JokeReading", async (req, res) => {
     }
   });
 
+  // this is to handle when servers stops, and client try to refresh the page in get custom joke page
+  router.get("/getCustomJoke", async (req, res) => {
+    res.redirect('/literacyHome/JokeReading');
+  });
+
 router.post("/getCustomJoke", async (req, res) => {
   if (!hasAnyCustomisedFilters(req.body)) {
-    res.redirect('literacy/literacyJokeReading.ejs');
+    res.redirect('/literacyHome/JokeReading');
   } else {
     try {
       const response = await axios.get(API_URL + customURLGenerator(req.body));
@@ -31,7 +36,7 @@ router.post("/getCustomJoke", async (req, res) => {
   }
 });
 
-router.get("/vocabGardenApp*", (req, res) => {
+router.get("/vocabGardenApp", (req, res) => {
     res.render('literacy/literacyVocabGardenApp.ejs');
 });
 

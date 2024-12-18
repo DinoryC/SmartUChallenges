@@ -23,9 +23,13 @@ router.get("/division", (req, res) => {
     res.render('numeracy/TestRangeChosingPage.ejs', {challengeOptions: devisionTestOptions});
 });
 
+// handle when user refresh page with the post route
+router.get("/submitTestRange", (req, res) => {
+    res.redirect('/numeracyHome/');
+})
+
 router.post("/submitTestRange", (req, res) => {
     var parameters = findParameters(req.body);
-
     res.render('numeracy/numerayTestPage.ejs', {testParameters: parameters});
 })
 
