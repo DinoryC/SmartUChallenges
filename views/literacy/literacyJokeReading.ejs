@@ -3,7 +3,7 @@
 
 <div class="text-center container mt-4">
     <h1>Joke Reading Challenge
-    <h2>Let's see if you can understand a joke.</h2>
+    <h5>Let's see if you can understand a joke.</h5>
 </div>
 
 <div class="container mt-4">
@@ -12,13 +12,13 @@
             <% if (locals.jokeData) { %>
               <% if (jokeData.error == false) { %>
                 <svg height="150px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M146.908 224.236C166.925 338.455 270.014 242.583 254.072 234.939C223.437 220.252 188.739 224.824 157.327 213.527" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M138.539 121.701C198.468 164.322 211.992 127.38 118 167.614" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M281.249 120C260.39 132.103 242.818 140.507 228.533 145.211C250.501 156.133 268.072 163.034 281.249 165.913" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                <h2 class="card-title">Hey, tell you a joke!</h2><br>
-                <h6 class="card-subtitle mb-2 text-muted">
+                <h3 class="card-title">Hey, tell you a joke!</h3><br>
+                <p class="card-subtitle mb-2 text-muted">
                   Category: <%= jokeData.category %>
-                </h6>
-                <p class="card-text">
+                </p><br>
+                <h6 class="card-text">
                   <%= jokeData.joke %>
-                </p>
+                </h6>
               <% } else { %>
                 <h4 class="card-title">Please adjust your filters</h5>
                 <h6 class="card-subtitle mb-2 text-muted">
@@ -42,7 +42,7 @@
                 <button class="btn btn-success" type="submit" formaction="/literacyHome/getCustomJoke">
                   Tell Me Another Joke
                 </button>
-        
+
                 <!-- Collapsible section -->
                 <div class="collapse mt-3" id="checkboxSection">
                     <div class="card card-body">
@@ -93,12 +93,12 @@
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox1-3" name="blacklist" value="political">
                             <label class="form-check-label" for="inlineCheckbox1-3">political</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="checkbox" id="inlineCheckbox1-4" name="blacklist" value="racist">
+                        <div class="form-check form-check-inline do-not-display">
+                          <input class="form-check-input" type="checkbox" id="inlineCheckbox1-4" name="blacklist" value="racist" checked>
                           <label class="form-check-label" for="inlineCheckbox1-4">racist</label>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-5" name="blacklist" value="sexist">
+                        <div class="form-check form-check-inline do-not-display">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1-5" name="blacklist" value="sexist" checked>
                             <label class="form-check-label" for="inlineCheckbox1-5">sexist</label>
                         </div>
                         <div class="form-check form-check-inline">
@@ -106,7 +106,7 @@
                             <label class="form-check-label" for="inlineCheckbox1-6">explicit</label>
                         </div>
                       </div>
-        
+
                       <div class="container mt-4" name="idRange">
                         <!-- <label for="rangeSlider">Select Joke ID Range:</label><br> -->
                         <h5>Select Joke ID Range:</h5>
@@ -128,7 +128,6 @@
 <script src="https://cdn.jsdelivr.net/npm/nouislider/distribute/nouislider.min.js"></script>
 <script>
   var slider = document.getElementById('rangeSlider');
-  console.log("Here 123");
 
   noUiSlider.create(slider, {
     start: [0, 318],  // Initial positions of the handles
@@ -162,13 +161,10 @@
   function toggleAll(source) {
     // Get all checkboxes but "All" checkbox.
     var checkboxes = document.querySelectorAll('.autoSelectable:not(#selectAllCheckbox)');
-    
-    // If "All" is checked, check all checkboxes
-    if (source.checked) {
-      checkboxes.forEach(function(checkbox) {
-        checkbox.checked = true;
-      });
-    }
+
+    checkboxes.forEach(function(checkbox) {
+        checkbox.checked = source.checked;
+    });
   }
 </script>
 

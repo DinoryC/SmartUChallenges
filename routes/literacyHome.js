@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 router.get("/JokeReading", async (req, res) => {
     try {
-      const response = await axios.get(API_URL + "/Any?type=single");
+      const response = await axios.get(API_URL + "/Any?blacklistFlags=racist,sexist&type=single");
       res.render('literacy/literacyJokeReading.ejs', { jokeData: response.data });
     } catch (error) {
       res.render('literacy/literacyJokeReading.ejs', { jokeData: error.response, jokeCategory: "error" });
@@ -70,8 +70,7 @@ function customURLGenerator(chosenFilters) {
   }
 
   let endPoint = "/" + catgoriesPart + blacklistFlagsPart + "type=single" + idRange;
-  console.log(API_URL + endPoint);
-
+  
   return endPoint;
 }
 

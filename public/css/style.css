@@ -292,3 +292,7 @@ form.create-newVocabCard button {
     width: 85%;
   }
 }
+
+.do-not-display {
+  display: none;
+}
