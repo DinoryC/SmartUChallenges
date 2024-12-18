@@ -29,7 +29,6 @@ function UserVocabs(props) {
         isLoading: isLoading,
         error: error,
       }));
-      console.log(JSON.stringify(appState.vocabArray[3], null, 2))
     }
   }, [fetchedData, isLoading, error]);
 
