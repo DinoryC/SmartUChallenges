@@ -36,7 +36,7 @@ router.post("/getCustomJoke", async (req, res) => {
   }
 });
 
-router.get("/vocabGardenApp", (req, res) => {
+router.get("/vocabGardenApp*", (req, res) => {
     res.render('literacy/literacyVocabGardenApp.ejs');
 });
 
