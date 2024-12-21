@@ -14,12 +14,13 @@ import literacyHomeRoutes from './routes/literacyHome.js';
 import authRoutes from "./routes/auth.js";
 import apiRoutes from "./routes/api.js"
 
+env.config();
+
 const PORT = process.env.PORT || 10000;
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-env.config();
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -32,19 +33,17 @@ app.use(
   session({
     store: new pgSession({
       pool: pool, // Postgres pool
-      tableName: 'session' // optional, defaults to 'session'
+      tableName: 'session' 
     }),
     secret: process.env.SESSION_SECRET,
-    resave: false, // False to prevent unnecessary session resaves
-    saveUninitialized: false, // only save session if something stored
+    resave: false, 
+    saveUninitialized: false, 
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 14,  // valid for 14 days
     },
+    secure: process.env.NODE_ENV === 'production',
   })
 );
-// secure: process.env.NODE_ENV === 'production', // Set to true in production
-// httpOnly: true, // Helps prevent XSS
-// sameSite: 'lax', // Adjust based on your frontend
 
 app.use(passport.initialize());
 app.use(passport.session());

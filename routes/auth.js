@@ -4,9 +4,11 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import GoogleStrategy from "passport-google-oauth2";
+import env from "dotenv";
 
 const router = express.Router();
 const saltRounds = 12;
+env.config();
 
 router.get("/getUser", (req, res) => {
   if (req.isAuthenticated()) {
@@ -150,11 +152,13 @@ passport.use(new LocalStrategy(
   }
 ));
 
+process.env.GOOGLE_CALLBACK_URL
+
 passport.use("google", 
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://smartuchallenges.live/literacyHome/vb/auth/auth/google",
+    callbackURL: process.env.GOOGLE_CALLBACK_URL,
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo", 
   }, async (accessToken, refreshToken, profile, done) => {
     try {
