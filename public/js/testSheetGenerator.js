@@ -23,17 +23,18 @@ startTest();
 
 function pageLoadingPreparation() {
     getParameters();
-    // consoleLogParamenter();
     prepareAllQuestions();
     PrepareAllAnswers();
     currentQuestion = -1;
     $('#passedQuestions').html(passedQuestionsHtml);
 
-    $('#showAnswerBtn').on('mousedown', function(event) {
+    $('#showAnswerBtn').on('mousedown touchstart', function(event) {
+        event.preventDefault();
         $(this).text("Answer is: " + allAnswers[currentQuestion]);
     });
 
-    $('#showAnswerBtn').on('mouseup', function(event) {
+    $('#showAnswerBtn').on('mouseup touchend touchcancel', function(event) {
+        event.preventDefault();
         $(this).text("Show Answer");
     });
 }
@@ -49,7 +50,7 @@ function addKeyboardEventListener() {
         if (event.key >= "0" && event.key <= "9" || event.key === "Backspace" || event.key === "-") {
             inputHandler(event.key);
         } else {
-            event.preventDefault(); // Prevent any other keys
+            event.preventDefault();
         }
     });
 }

@@ -25,7 +25,7 @@ router.get("/division", (req, res) => {
 
 // handle when user refresh page with the post route
 router.get("/submitTestRange", (req, res) => {
-    res.redirect('/numeracyHome/');
+    res.redirect('/');
 })
 
 router.post("/submitTestRange", (req, res) => {
