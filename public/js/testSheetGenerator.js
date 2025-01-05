@@ -328,6 +328,7 @@ function ChallengeSuccess() {
     $('#showAnswerBtn').on('click', function() {
         location.reload();
     });
+    $("#userInputValue").hide();
 }
 
 function inputValueUpdater(updateInterval) {
