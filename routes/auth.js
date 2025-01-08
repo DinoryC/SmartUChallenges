@@ -104,7 +104,7 @@ router.post("/register", async (req, res) => {
       );
 
       req.login(newUser, (err) => {
-        console.log(err);
+        console.log("/register login error : " + err);
         res.json({ success: true });
       });
     }
@@ -135,24 +135,18 @@ passport.use(new LocalStrategy(
         const isValid = await bcrypt.compare(password, storedHashedPassword);
 
         if (isValid) {
-          console.log("passport local check -- password is valid!");
           return done(null, user);
         } else {
-          console.log("passport local check -- password is NOT valid!");
           return done(null, false, { message: 'Invalid email or password.' });
         }
       } else {
-        console.log("passport local check -- User not found.");
         return done(null, false, { message: 'Invalid email or password.' });
       }
     } catch (err) {
-      console.error(err);
       return done(err);
     }
   }
 ));
-
-process.env.GOOGLE_CALLBACK_URL
 
 passport.use("google", 
   new GoogleStrategy({
@@ -167,7 +161,6 @@ passport.use("google",
       )
       if (result.rows.length === 0) {
         const username = profile.email.split('@')[0];
-        console.log("getting username = " + username);
         const newGoogleSignUpUser = await pool.query("INSERT INTO users (email, username) VALUES ($1, $2) RETURNING *",
           [profile.email, username]
         )
@@ -191,14 +184,10 @@ passport.use("google",
 ))
 
 passport.serializeUser((user, done) => {
-  console.log("auth.js passport.serializeUser: user = ");
-  console.log(JSON.stringify(user, null, 2));
   done(null, user.user_id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  console.log("auth.js passport.deserializeUser: id = " + id);
-
   try {
     const result = await pool.query("SELECT user_id, email, username FROM users WHERE user_id = $1", [id]);
     if (result.rows.length > 0) {

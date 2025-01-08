@@ -2,7 +2,6 @@ import pg from "pg";
 import dotenv from "dotenv";
 
 const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env";
-console.log("db.js, envFile = " + envFile);
 dotenv.config({ path: envFile });
 
 const { Pool } = pg;
