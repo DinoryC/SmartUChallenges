@@ -1,7 +1,9 @@
 import pg from "pg";
-import env from "dotenv";
+import dotenv from "dotenv";
 
-env.config();
+const envFile = process.env.NODE_ENV === "test" ? ".env.test" : ".env";
+dotenv.config({ path: envFile });
+
 const { Pool } = pg;
 
 const pool = new Pool({
