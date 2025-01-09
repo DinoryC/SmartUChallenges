@@ -1,9 +1,41 @@
 <%- include("../partials/header.ejs") %>
 
-<div class="container">
-    <h1>Literacy Home Page</h1>
-    <p>Enter</p>
+<div class="container-fluid text-center d-flex justify-content-center align-items-center mt-4 mb-0">
+    <div class="row">
+        <div class="col-lg-6 d-flex justify-content-center align-items-center px-4 py-4">
+          <a class="no-underline" href="/literacyHome/JokeReading">
+            <div class="card" style="width: 24rem;">
+              <h3 class = py-4>Joke Reading Challenges</h3>
+              <svg height="150px" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M146.908 224.236C166.925 338.455 270.014 242.583 254.072 234.939C223.437 220.252 188.739 224.824 157.327 213.527" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M138.539 121.701C198.468 164.322 211.992 127.38 118 167.614" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M281.249 120C260.39 132.103 242.818 140.507 228.533 145.211C250.501 156.133 268.072 163.034 281.249 165.913" stroke="#000000" stroke-opacity="0.9" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              <div class="card-body">
+                <p class="card-text">
+                  Hey! Tell you a joke!
+                </p>
+                <h6>-Powered by JokeAPI-</h6>
+                <button type="button" class="btn btn-success">Go</button>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-lg-6 d-flex justify-content-center align-items-center px-4 py-4">
+          <a class="no-underline" href="/literacyHome/vocabGardenApp/auth">
+          <div class="card" style="width: 24rem;">
+            <h3 class = py-4>Vocabulary Garden</h3>
+            <img src="/Svg/garden-sunflower-flower-svgrepo-com.svg" height = "150px" alt="SVG Image">
+            <div class="card-body">
+              <p class="card-text">
+                Plant new words you've learned<br>
+                in the vocab garden.
+              </p>
+                <button type="button" class="btn btn-success">Go</button>
+            </div>
+          </div>
+          </a>
+        </div>
+    </div>
 </div>
 
+<script src="/js/literacyHome.js"></script>
 
 <%- include("../partials/footer.ejs") %>

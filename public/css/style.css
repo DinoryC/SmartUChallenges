@@ -1,24 +1,25 @@
 .content {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-  }
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 
 body {
-    background-color:#CDFADB;
+  background-color:#CDFADB;
+  background-image: url("https://transparenttextures.com/patterns/food.png");
 }
 
 .pdf-container {
-    width: 100%;
-    height: 100%;
-    border: none;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .no-underline {
-    text-decoration: none;
-  }
+  text-decoration: none;
+}
 
 .correctAnswers {
   text-align: left;
@@ -59,4 +60,239 @@ input[type="number"] {
 
 .shake {
   animation: shake 0.5s ease-in-out;
+}
+
+.hidden-range {
+  display: none;
+}
+
+/* ===============Start of Auth Page */
+.authCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.authCard {
+  background-color: transparent;
+  border: 0.5px solid #50a3a2;
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px; 
+  padding: 50px 10px;
+  box-sizing: border-box;
+  width: 75%;
+  max-width: 600px;
+}
+
+.authCard button {
+  background-color: #fff;
+  border: 0.5px solid #50a3a2;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.authCard button:hover {
+  background-color: #f2f2f2;
+}
+
+.formContainer form {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+}
+
+.formContainer form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.submitButton {
+  background-color: #fff;
+  border: 0.5px solid #50a3a2;
+  color: #50a3a2;
+  font-size: 16px;
+  padding: 2px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submitButton:hover {
+  background-color: #f2f2f2;
+}
+
+.muiIconOnButton {
+  margin-right: 10px;
+}
+
+/* =============== end of Auth Page */
+
+.vocabGardenTopper {
+  width: 100%;
+  height: 170px;
+  border-radius: 7px;
+  background-color: #FADA7A;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .vocabGardenTopper {
+    height: 230px;
+  }
+}
+
+@media (max-width: 440px) {
+  .vocabGardenTopper {
+    height: 250px;
+  }
+}
+
+.greetingUser {
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  padding: 10px;
+}
+
+.emoji {
+  font-size: 24px;
+}
+
+.logOutButton {
+  height: 66px;
+}
+
+.headingStyle {
+  padding: 15px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 2.1em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.decorationStyle {
+  font-size: 1.2em;
+  margin-top: 12px;
+}
+
+.vocabCard {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: 260px;
+}
+
+.vocabCard h1 {
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.vocabCard h3 {
+  font-size: 0.9em;
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.vocabCard p {
+  font-size: 0.8em;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: right;
+}
+
+.vocabCard button {
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  color: #f39c12;
+  border: none;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  outline: none;
+}
+
+form.create-newVocabCard {
+  position: relative;
+  width: 480px;
+  margin: 30px auto 20px auto;
+  background: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  box-shadow: 0 1px 5px rgb(138, 137, 137);
+}
+
+@media (max-width: 550px) {
+  form.create-newVocabCard {
+    width: 97%;
+  }
+}
+
+form.create-newVocabCard input,
+form.create-newVocabCard textarea {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  outline: none;
+  font-size: 1.2em;
+  font-family: inherit;
+  resize: none;
+}
+
+form.create-newVocabCard button {
+  position: absolute;
+  right: 18px;
+  bottom: -18px;
+  background: #f39c12;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  outline: none;
+}
+
+.custom-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 1400px) {
+  .custom-container {
+    width: 85%;
+  }
+}
+
+.do-not-display {
+  display: none;
 }

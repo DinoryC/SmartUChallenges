@@ -1,9 +1,5 @@
 import express from 'express';
 import bodyParser from "body-parser";
-const app = express();
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 const router = express.Router();
 
@@ -27,9 +23,13 @@ router.get("/division", (req, res) => {
     res.render('numeracy/TestRangeChosingPage.ejs', {challengeOptions: devisionTestOptions});
 });
 
+// handle when user refresh page with the post route
+router.get("/submitTestRange", (req, res) => {
+    res.redirect('/');
+})
+
 router.post("/submitTestRange", (req, res) => {
     var parameters = findParameters(req.body);
-
     res.render('numeracy/numerayTestPage.ejs', {testParameters: parameters});
 })
 
